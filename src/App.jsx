@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Caruselconsola from './paginas/consola/Carrusel'
 import Header from './components/Header'
+import Consolas from './paginas/consola/Cards'
 import './App.css'
 
 function App() {
@@ -10,6 +11,9 @@ function App() {
     <>  
     <Header/>    
      <div> <Caruselconsola /> </div>
+   <div>
+    <Consolas/>
+   </div>
   </>
 
   )
