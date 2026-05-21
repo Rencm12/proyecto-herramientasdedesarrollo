@@ -1,5 +1,7 @@
-import Card from "../../components/Card-consola";
-const Cardsconsola= [
+import { useState } from "react";
+import Card from "./Card-consola";
+import FiltroConsolas from "./Filtro-consola";
+export const Cardsconsola= [
 
 {
  id: 1,
@@ -180,27 +182,66 @@ limitada: false,
 ];
 
 function Consolas() {
-
+const [
+productosFiltrados,
+setProductosFiltrados,
+] = useState(Cardsconsola);
 return (
 
-<div className="grid grid-cols-4 gap-6 p-8">
+<div
+className="
+flex
+gap-8
+p-8
+"
+>
 
-{Cardsconsola.map((producto) => (
+<FiltroConsolas
+productos={Cardsconsola}
+setProductosFiltrados={
+setProductosFiltrados
+}
+/>
+
+<div
+className="
+grid
+grid-cols-1
+md:grid-cols-2
+lg:grid-cols-4
+gap-6
+flex-1
+"
+>
+
+{productosFiltrados.map(
+(producto) => (
 
 <Card
 key={producto.id}
 imagen={producto.imagen}
 titulo={producto.titulo}
 consola={producto.consola}
-descripcion={producto.descripcion}
-exclusivo={producto.exclusivo}
-limitada={producto.limitada}
+descripcion={
+producto.descripcion
+}
+exclusivo={
+producto.exclusivo
+}
+limitada={
+producto.limitada
+}
 onClick={() =>
-alert(`${producto.titulo}`)
+alert(
+producto.titulo
+)
 }
 />
 
-))}
+)
+)}
+
+</div>
 
 </div>
 
