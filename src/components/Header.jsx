@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { CarritoContext } from "../context/CarritoContext";
+import CarritoSidebar from "./CarritoSidebar";
+import { ShoppingCart } from "lucide-react";
 
 const Header = () => {
   const [mostrarLogin, setMostrarLogin] = useState(false);
@@ -10,6 +13,22 @@ const Header = () => {
 
   const [nuevoUsuario, setNuevoUsuario] = useState("");
   const [nuevaPassword, setNuevaPassword] = useState("");
+
+  const [mostrarCarrito, setMostrarCarrito] = useState(false);
+  const { carrito } = useContext(CarritoContext);
+  const [animarCarrito, setAnimarCarrito] = useState(false);
+
+  useEffect(() => {
+    if (carrito.length > 0) {
+      setAnimarCarrito(true);
+
+      const timer = setTimeout(() => {
+        setAnimarCarrito(false);
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [carrito.length]);
 
   const iniciarSesion = () => {
     if (!usuario || !password) {
@@ -70,7 +89,7 @@ const Header = () => {
         </nav>
 
         {/* Botones */}
-        <div className="flex gap-3">
+        <div className="flex items-center gap-4">
 
           <button
             className="btn-primary"
@@ -85,6 +104,42 @@ const Header = () => {
           >
             Iniciar sesión
           </button>
+
+          <div
+            onClick={() => setMostrarCarrito(true)}
+            className="
+              relative
+              text-white
+              text-3xl
+              cursor-pointer
+              hover:scale-110
+              transition
+            "
+          >
+            <ShoppingCart size={28} />
+
+            {carrito.length > 0 && (
+              <span
+                className="
+                  absolute
+                  -top-2
+                  -right-2
+                  bg-[#00ffc3]
+                  text-black
+                  text-xs
+                  font-bold
+                  w-5
+                  h-5
+                  rounded-full
+                  flex
+                  items-center
+                  justify-center
+                "
+              >
+                {carrito.length}
+              </span>
+            )}
+          </div>
 
         </div>
 
@@ -179,6 +234,12 @@ const Header = () => {
 
         </div>
       )}
+
+      {/* SIDEBAR DEL CARRITO */}
+      <CarritoSidebar
+        abierto={mostrarCarrito}
+        cerrar={() => setMostrarCarrito(false)}
+      />
     </>
   );
 };

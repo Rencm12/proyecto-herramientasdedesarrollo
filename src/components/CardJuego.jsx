@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CarritoContext } from "../context/CarritoContext";
 
 function CardJuego({ juego }) {
 
   const [favorito, setFavorito] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [mostrarModal, setMostrarModal] = useState(false);
+  const { agregarAlCarrito } = useContext(CarritoContext);
 
   return (
 
@@ -144,17 +146,17 @@ function CardJuego({ juego }) {
 
         {/* BOTÓN CARRITO */}
         <button
+          onClick={() => agregarAlCarrito(juego)}
           className="
-            bg-[#00ffc3]
-            text-black
-            w-full
-            py-2
-            rounded-lg
-            mt-3
-            font-bold
-            hover:bg-[#00d9a8]
-            transition
-          "
+    w-full
+    bg-[#00ffc3]
+    text-black
+    py-2
+    rounded-lg
+    font-bold
+    transition
+    hover:bg-[#00d7aa]
+  "
         >
           Agregar al carrito
         </button>
