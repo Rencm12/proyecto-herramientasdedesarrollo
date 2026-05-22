@@ -22,7 +22,7 @@ function CardJuego({ juego }) {
       <p className="text-gray-300">
         {juego.plataforma} | {juego.categoria}
       </p>
-      <div className="mt-2">
+      <div className="mt-2 text-yellow-400 text-lg">
         {juego.estrellas}
       </div>
       <p className="text-[#00ffc3] text-xl font-bold mt-2">

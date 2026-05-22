@@ -20,7 +20,6 @@ const Carousel = ({ slides = [] }) => {
       className="
         relative
         overflow-hidden
-        rounded-[15px]
         bg-white
         shadow-[0_10px_25px_rgba(255,255,255,0.05)]
       "
@@ -40,7 +39,7 @@ const Carousel = ({ slides = [] }) => {
             <img
               src={slide}
               alt={`Slide ${index + 1}`}
-              className="w-full h-screen object-cover"
+              className="w-full h-200 object-cover"
             />
           </div>
         ))}
