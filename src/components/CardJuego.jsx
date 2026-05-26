@@ -1,10 +1,12 @@
 import { useContext, useState } from "react";
 import { CarritoContext } from "../context/CarritoContext";
+import Toast from "./Toast";
 
 function CardJuego({ juego }) {
   const [favorito, setFavorito] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [toast, setToast] = useState("");
   const { agregarAlCarrito } = useContext(CarritoContext);
 
   return (
@@ -120,7 +122,15 @@ function CardJuego({ juego }) {
 
         {/* BOTÓN CARRITO */}
         <button
-          onClick={() => agregarAlCarrito(juego)}
+          onClick={() => {
+            agregarAlCarrito(juego);
+
+            setToast(`${juego.nombre} agregado al carrito`);
+
+            setTimeout(() => {
+              setToast("");
+            }, 2500);
+          }}
           className="
     w-full
     bg-[#00ffc3]
@@ -261,6 +271,7 @@ function CardJuego({ juego }) {
           </div>
         </div>
       )}
+      <Toast mensaje={toast} />
     </>
   );
 }
