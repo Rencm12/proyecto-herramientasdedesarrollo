@@ -1,8 +1,11 @@
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { CarritoContext } from "../context/CarritoContext";
-import CarritoSidebar from "./CarritoSidebar";
 import { ShoppingCart } from "lucide-react";
+
+import { CarritoContext } from "../context/CarritoContext";
+import { FavoritosContext } from "../context/FavoritosContext";
+
+import CarritoSidebar from "./CarritoSidebar";
 
 const Header = () => {
   const [mostrarLogin, setMostrarLogin] = useState(false);
@@ -15,7 +18,10 @@ const Header = () => {
   const [nuevaPassword, setNuevaPassword] = useState("");
 
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
+
   const { carrito } = useContext(CarritoContext);
+  const { favoritos } = useContext(FavoritosContext);
+
   const [animarCarrito, setAnimarCarrito] = useState(false);
 
   useEffect(() => {
@@ -37,6 +43,7 @@ const Header = () => {
     }
 
     alert(`Bienvenido ${usuario} 🎮`);
+
     setMostrarLogin(false);
   };
 
@@ -47,16 +54,17 @@ const Header = () => {
     }
 
     alert(`Usuario ${nuevoUsuario} registrado con éxito 🎉`);
+
     setMostrarRegistro(false);
   };
 
   return (
     <>
       <header className="bg-black px-10 py-4 flex items-center justify-between border-b-2 border-[#00ffc3]">
-        {/* Logo */}
+        {/* LOGO */}
         <div className="text-[24px] text-[#00ffc3] font-bold">GameHub</div>
 
-        {/* Navegación */}
+        {/* NAVEGACIÓN */}
         <nav>
           <ul className="flex gap-8 text-white">
             {["Inicio", "Consolas", "Juegos", "Accesorios"].map((item) => (
@@ -83,7 +91,7 @@ const Header = () => {
           </ul>
         </nav>
 
-        {/* Botones */}
+        {/* BOTONES */}
         <div className="flex items-center gap-4">
           <button
             className="btn-primary"
@@ -96,16 +104,52 @@ const Header = () => {
             Iniciar sesión
           </button>
 
+          {/* FAVORITOS */}
+          <Link
+            to="/favoritos"
+            className="
+              relative
+              text-3xl
+              hover:scale-110
+              transition
+            "
+          >
+            ❤️
+            {favoritos.length > 0 && (
+              <span
+                className="
+                  absolute
+                  -top-2
+                  -right-2
+                  bg-[#00ffc3]
+                  text-black
+                  text-xs
+                  font-bold
+                  w-5
+                  h-5
+                  rounded-full
+                  flex
+                  items-center
+                  justify-center
+                "
+              >
+                {favoritos.length}
+              </span>
+            )}
+          </Link>
+
+          {/* CARRITO */}
           <div
             onClick={() => setMostrarCarrito(true)}
-            className="
+            className={`
               relative
               text-white
               text-3xl
               cursor-pointer
               hover:scale-110
               transition
-            "
+              ${animarCarrito ? "scale-125" : ""}
+            `}
           >
             <ShoppingCart size={28} />
 
@@ -209,7 +253,7 @@ const Header = () => {
         </div>
       )}
 
-      {/* SIDEBAR DEL CARRITO */}
+      {/* SIDEBAR */}
       <CarritoSidebar
         abierto={mostrarCarrito}
         cerrar={() => setMostrarCarrito(false)}

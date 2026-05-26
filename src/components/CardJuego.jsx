@@ -1,13 +1,14 @@
 import { useContext, useState } from "react";
 import { CarritoContext } from "../context/CarritoContext";
+import { FavoritosContext } from "../context/FavoritosContext";
 import Toast from "./Toast";
 
 function CardJuego({ juego }) {
-  const [favorito, setFavorito] = useState(false);
-  const [mensaje, setMensaje] = useState("");
   const [mostrarModal, setMostrarModal] = useState(false);
   const [toast, setToast] = useState("");
   const { agregarAlCarrito } = useContext(CarritoContext);
+  const { agregarFavorito, esFavorito } = useContext(FavoritosContext);
+  const favorito = esFavorito(juego.id);
 
   return (
     <>
@@ -26,21 +27,7 @@ function CardJuego({ juego }) {
       >
         {/* FAVORITOS */}
         <button
-          onClick={() => {
-            const nuevoEstado = !favorito;
-
-            setFavorito(nuevoEstado);
-
-            if (nuevoEstado) {
-              setMensaje("Juego añadido a favoritos ❤️");
-            } else {
-              setMensaje("Juego eliminado 💔");
-            }
-
-            setTimeout(() => {
-              setMensaje("");
-            }, 2000);
-          }}
+          onClick={() => agregarFavorito(juego)}
           className="
             absolute
             top-3
@@ -60,37 +47,6 @@ function CardJuego({ juego }) {
         >
           {favorito ? "❤️" : "🤍"}
         </button>
-
-        {/* MENSAJE FAVORITOS */}
-        {mensaje && (
-          <div
-            className="
-              absolute
-              top-16
-              right-3
-              w-[240px]
-              bg-[#111827]
-              border
-              border-[#00ffc3]
-              text-white
-              rounded-xl
-              p-4
-              shadow-[0_0_20px_rgba(0,255,195,0.5)]
-              backdrop-blur-md
-              z-50
-            "
-          >
-            <div className="flex items-center gap-3">
-              <div className="text-2xl">{favorito ? "❤️" : "💔"}</div>
-
-              <div>
-                <p className="font-bold text-[#00ffc3]">Favoritos</p>
-
-                <p className="text-sm text-gray-300">{mensaje}</p>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* IMAGEN */}
         <img
