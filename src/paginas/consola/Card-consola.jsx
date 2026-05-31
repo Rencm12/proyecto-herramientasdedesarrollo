@@ -4,6 +4,7 @@ import { FavoritosContext } from "../../context/FavoritosContext";
 import { Heart } from "lucide-react";
 import Toast from "../../components/Toast";
 
+
 // Detecta si un src es un link de YouTube y extrae el ID
 function getYoutubeId(src) {
   if (!src) return null;
