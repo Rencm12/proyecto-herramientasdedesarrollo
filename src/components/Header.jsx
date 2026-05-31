@@ -100,6 +100,8 @@ const Header = () => {
 
         {/* NAVEGACIÓN */}
         <nav>
+          <ul className="flex gap-8 text-white">
+            {["Inicio", "Consolas", "Juegos", "Accesorios", "Nosotros"].map((item) => (
           <ul
             className="
     flex
