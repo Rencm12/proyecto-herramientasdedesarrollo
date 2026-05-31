@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useContext, useState } from "react";
+=======
+import React, { useContext, useState } from "react";
+>>>>>>> 70d03af39958775eb140f9c9abc4e515b05851e1
 import { CarritoContext } from "../../context/CarritoContext";
 function Card({ producto }) {
   const { agregarAlCarrito } = useContext(CarritoContext);
