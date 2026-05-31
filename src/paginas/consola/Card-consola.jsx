@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { CarritoContext } from "../../context/CarritoContext";
+
 function Card({ producto }) {
   const { agregarAlCarrito } = useContext(CarritoContext);
   const { imagen, titulo, consola, descripcion, precio, exclusivo, limitada } = producto;
