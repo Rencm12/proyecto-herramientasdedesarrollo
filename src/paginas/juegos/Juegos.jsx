@@ -192,7 +192,7 @@ function Juegos() {
               rounded-full
             "
           >
-            <option value="" disabled hidden text-gray-300>
+            <option value="" disabled hidden>
               Categoría
             </option>
             <option value="Acción">Acción</option>
@@ -275,9 +275,10 @@ function Juegos() {
                     rounded-lg
                     font-bold
                     transition
-                    ${paginaActual === numeroPagina
-                      ? "bg-[#00ffc3] text-black"
-                      : "bg-[#1e293b] text-white hover:bg-[#334155]"
+                    ${
+                      paginaActual === numeroPagina
+                        ? "bg-[#00ffc3] text-black"
+                        : "bg-[#1e293b] text-white hover:bg-[#334155]"
                     }
                   `}
                 >

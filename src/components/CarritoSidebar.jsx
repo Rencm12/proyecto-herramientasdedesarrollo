@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CarritoContext } from "../context/CarritoContext";
 import {
   ShoppingCart,
@@ -9,14 +9,36 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import CheckoutModal from "./CheckoutModal";
+import { supabase } from "../supabase/client";
+import Login from "./Login";
 
 function CarritoSidebar({ abierto, cerrar }) {
   const { carrito, aumentarCantidad, disminuirCantidad, eliminarProducto } =
     useContext(CarritoContext);
 
   const [mostrarCheckout, setMostrarCheckout] = useState(false);
-  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const [usuario, setUsuario] = useState(null);
+  const [mostrarLogin, setMostrarLogin] = useState(false);
+  const [mensaje, setMensaje] = useState("");
 
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUsuario(session?.user ?? null);
+    };
+
+    getUser();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUsuario(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
   const total = carrito.reduce(
     (acc, juego) => acc + juego.precio * juego.cantidad,
     0,
@@ -24,12 +46,12 @@ function CarritoSidebar({ abierto, cerrar }) {
 
   const finalizarCompra = () => {
     if (carrito.length === 0) {
-      alert("Tu carrito está vacío");
+      setMensaje("Tu carrito está vacío");
       return;
     }
 
     if (!usuario) {
-      alert("Debes iniciar sesión para finalizar tu compra");
+      setMostrarLogin(true);
       return;
     }
 
@@ -245,7 +267,10 @@ function CarritoSidebar({ abierto, cerrar }) {
       <CheckoutModal
         abierto={mostrarCheckout}
         cerrar={() => setMostrarCheckout(false)}
+        setMostrarLogin={setMostrarLogin}
       />
+
+      {mostrarLogin && <Login onClose={() => setMostrarLogin(false)} />}
     </>
   );
 }

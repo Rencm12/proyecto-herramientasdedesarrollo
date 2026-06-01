@@ -1,7 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CarritoContext } from "../context/CarritoContext";
+import { supabase } from "../supabase/client";
+import { X } from "lucide-react";
 
-function CheckoutModal({ abierto, cerrar }) {
+function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
   const { carrito, setCarrito } = useContext(CarritoContext);
 
   const [nombre, setNombre] = useState("");
@@ -9,22 +11,60 @@ function CheckoutModal({ abierto, cerrar }) {
   const [direccion, setDireccion] = useState("");
   const [telefono, setTelefono] = useState("");
   const [metodoPago, setMetodoPago] = useState("");
+  const [usuario, setUsuario] = useState(null);
+  const [mensaje, setMensaje] = useState("");
 
   const total = carrito.reduce(
     (acc, juego) => acc + juego.precio * juego.cantidad,
     0,
   );
 
-  const finalizarCompra = () => {
-    if (!nombre || !correo || !telefono || !direccion || !metodoPago) {
-      alert("Completa todos los campos y selecciona un método de pago");
+  useEffect(() => {
+    const getSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUsuario(session?.user || null);
+    };
+
+    getSession();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUsuario(session?.user || null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (usuario?.email) {
+      setCorreo(usuario.email);
+    }
+  }, [usuario]);
+
+  const finalizarCompra = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    const user = session?.user;
+
+    if (!user) {
+      setMensaje("Debes iniciar sesión para finalizar tu compra");
+      setMostrarLogin(true);
       return;
     }
 
-    alert("Compra realizada con éxito 🎮");
+    if (!nombre || !correo || !telefono || !direccion || !metodoPago) {
+      setMensaje("Completa todos los campos");
+      return;
+    }
+
+    setMensaje("Compra realizada con éxito");
 
     setCarrito([]);
-
     cerrar();
   };
 
@@ -67,7 +107,7 @@ function CheckoutModal({ abierto, cerrar }) {
             text-2xl
           "
         >
-          ✕
+          <X />
         </button>
 
         {/* TÍTULO */}
@@ -81,6 +121,13 @@ function CheckoutModal({ abierto, cerrar }) {
         >
           Finalizar compra
         </h2>
+
+        {/* MENSAJE */}
+        {mensaje && (
+          <div className="bg-red-500/10 border border-red-500 text-red-400 p-3 rounded-lg mb-4">
+            {mensaje}
+          </div>
+        )}
 
         {/* FORMULARIO */}
         <div className="flex flex-col gap-4">
@@ -151,7 +198,9 @@ function CheckoutModal({ abierto, cerrar }) {
               outline-none
             "
           >
-            <option value="">Selecciona un método de pago</option>
+            <option value="" disabled hidden>
+              Selecciona un método de pago
+            </option>
             <option value="Tarjeta">Tarjeta de crédito/débito</option>
             <option value="Yape o Plin">Yape / Plin</option>
             <option value="Transferencia bancaria">
@@ -163,7 +212,7 @@ function CheckoutModal({ abierto, cerrar }) {
 
         {/* PRODUCTOS */}
         <div className="mt-8 flex flex-col gap-4">
-          {carrito.map((juego, index) => (
+          {(carrito ?? []).map((juego, index) => (
             <div
               key={index}
               className="

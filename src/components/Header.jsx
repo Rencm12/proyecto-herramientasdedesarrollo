@@ -1,23 +1,18 @@
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Heart } from "lucide-react";
-
+import Login from "./Login";
+import { supabase } from "../supabase/client";
 import { CarritoContext } from "../context/CarritoContext";
 import { FavoritosContext } from "../context/FavoritosContext";
-
+import CheckoutModal from "./CheckoutModal";
 import CarritoSidebar from "./CarritoSidebar";
 
 const Header = () => {
   const [mostrarLogin, setMostrarLogin] = useState(false);
-  const [mostrarRegistro, setMostrarRegistro] = useState(false);
-
-  const [usuario, setUsuario] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [nuevoUsuario, setNuevoUsuario] = useState("");
-  const [nuevaPassword, setNuevaPassword] = useState("");
-
+  const [mostrarCheckout, setMostrarCheckout] = useState(false);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
+  const [usuario, setUsuario] = useState(null);
 
   const { carrito } = useContext(CarritoContext);
   const { favoritos } = useContext(FavoritosContext);
@@ -25,6 +20,9 @@ const Header = () => {
   const [animarCarrito, setAnimarCarrito] = useState(false);
   const [mostrarBotonFlotante, setMostrarBotonFlotante] = useState(false);
 
+  const cerrarSesion = async () => {
+    await supabase.auth.signOut();
+  };
   useEffect(() => {
     if (carrito.length > 0) {
       setAnimarCarrito(true);
@@ -53,27 +51,25 @@ const Header = () => {
     };
   }, []);
 
-  const iniciarSesion = () => {
-    if (!usuario || !password) {
-      alert("Falta completar campos");
-      return;
-    }
+  useEffect(() => {
+    const obtenerSesion = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-    alert(`Bienvenido ${usuario} 🎮`);
+      setUsuario(session?.user ?? null);
+    };
 
-    setMostrarLogin(false);
-  };
+    obtenerSesion();
 
-  const registrarUsuario = () => {
-    if (!nuevoUsuario || !nuevaPassword) {
-      alert("Completa todos los campos");
-      return;
-    }
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUsuario(session?.user ?? null);
+    });
 
-    alert(`Usuario ${nuevoUsuario} registrado con éxito 🎉`);
-
-    setMostrarRegistro(false);
-  };
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <>
@@ -148,16 +144,32 @@ const Header = () => {
     gap-3
   "
         >
-          <button
-            className="btn-primary"
-            onClick={() => setMostrarRegistro(true)}
-          >
-            Registrarse
-          </button>
+          {usuario ? (
+            <div className="flex items-center gap-3">
+              <span
+                className="
+                  text-lg
+                  md:text-base
+                  font-bold
+                  text-[#00ffc3]
+                  drop-shadow-[0_0_8px_rgba(0,255,195,0.5)]
+                "
+              >
+                {usuario.user_metadata?.nombre || "Cliente"}
+              </span>
 
-          <button className="btn-primary" onClick={() => setMostrarLogin(true)}>
-            Iniciar sesión
-          </button>
+              <button onClick={cerrarSesion} className="btn-primary">
+                Salir
+              </button>
+            </div>
+          ) : (
+            <button
+              className="btn-primary"
+              onClick={() => setMostrarLogin(true)}
+            >
+              Ingresar
+            </button>
+          )}
 
           {/* FAVORITOS */}
           <Link
@@ -235,79 +247,12 @@ const Header = () => {
       </header>
 
       {/* LOGIN */}
-      {mostrarLogin && (
-        <div className="modal-overlay">
-          <div className="modal-box">
-            <h2 className="modal-title">Login</h2>
-
-            <input
-              className="modal-input"
-              type="text"
-              placeholder="Usuario"
-              value={usuario}
-              onChange={(e) => setUsuario(e.target.value)}
-            />
-
-            <input
-              className="modal-input"
-              type="password"
-              placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button className="btn-primary w-full mt-3" onClick={iniciarSesion}>
-              Ingresar
-            </button>
-
-            <button
-              className="btn-secondary"
-              onClick={() => setMostrarLogin(false)}
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* REGISTRO */}
-      {mostrarRegistro && (
-        <div className="modal-overlay">
-          <div className="modal-box">
-            <h2 className="modal-title">Registro</h2>
-
-            <input
-              className="modal-input"
-              type="text"
-              placeholder="Nuevo usuario"
-              value={nuevoUsuario}
-              onChange={(e) => setNuevoUsuario(e.target.value)}
-            />
-
-            <input
-              className="modal-input"
-              type="password"
-              placeholder="Nueva contraseña"
-              value={nuevaPassword}
-              onChange={(e) => setNuevaPassword(e.target.value)}
-            />
-
-            <button
-              className="btn-primary w-full mt-3"
-              onClick={registrarUsuario}
-            >
-              Registrar
-            </button>
-
-            <button
-              className="btn-secondary"
-              onClick={() => setMostrarRegistro(false)}
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )}
+      <CheckoutModal
+        abierto={mostrarCheckout}
+        cerrar={() => setMostrarCheckout(false)}
+        setMostrarLogin={setMostrarLogin}
+      />
+      {mostrarLogin && <Login onClose={() => setMostrarLogin(false)} />}
 
       {/* SIDEBAR */}
       <CarritoSidebar
