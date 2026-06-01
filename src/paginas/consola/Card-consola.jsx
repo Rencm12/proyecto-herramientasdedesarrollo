@@ -174,12 +174,10 @@ function Card({ producto, addToast }) {
           <p className="text-[#00ffc3] text-2xl font-bold mt-2">S/ {precio}</p>
 
           <button
-            onClick={() =>
-              agregarAlCarrito({
-                ...producto,
-                tipo: "consola",
-              })
-            }
+            onClick={() => {
+  agregarAlCarrito({ ...producto, tipo: "consola" });
+  toastFn(`${titulo} agregado al carrito`, producto.id);
+}}
             disabled={stock === 0}
             className="mt-6 w-full bg-[#00ffc3] text-black py-3 rounded-xl font-bold hover:bg-[#00d9a8] transition disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#00ffc3]"
           >
@@ -337,12 +335,10 @@ function Card({ producto, addToast }) {
               </div>
 
               <button
-                onClick={() =>
-                  agregarAlCarrito({
-                    ...producto,
-                    tipo: "consola",
-                  })
-                }
+               onClick={() => {
+  agregarAlCarrito({ ...producto, tipo: "consola" });
+  toastFn(`${titulo} agregado al carrito`, producto.id);
+}}
                 disabled={stock === 0}
                 className="mt-6 w-full bg-[#00ffc3] text-black py-3 rounded-xl font-bold hover:bg-[#00d9a8] transition disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#00ffc3]"
               >
