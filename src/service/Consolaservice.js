@@ -1,5 +1,5 @@
 // src/services/consolasService.js
-import { supabase } from "../lib/supabase";
+import { supabase } from "../supabase/client";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
