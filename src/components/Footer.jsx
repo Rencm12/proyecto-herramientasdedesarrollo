@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BookOpenCheck } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -18,7 +19,7 @@ const Footer = () => {
           mx-auto
           grid
           grid-cols-1
-          md:grid-cols-3
+          md:grid-cols-4
           gap-10
         "
       >
@@ -73,6 +74,40 @@ const Footer = () => {
             >
               Ir a Nosotros
             </button>
+          </Link>
+        </div>
+
+        {/* Libro de Reclamaciones */}
+        <div>
+          <h3 className="text-[#00ffc3] text-xl font-bold mb-4">
+            Atencion al Cliente
+          </h3>
+
+          <p className="text-gray-400 mb-4">
+            Registra un reclamo o queja sobre tu experiencia en GameHub.
+          </p>
+
+          <Link
+            to="/libro-reclamaciones"
+            className="
+              inline-flex
+              items-center
+              gap-2
+              bg-transparent
+              border
+              border-[#00ffc3]
+              text-[#00ffc3]
+              px-5
+              py-3
+              rounded-xl
+              font-bold
+              hover:bg-[#00ffc3]
+              hover:text-black
+              transition
+            "
+          >
+            <BookOpenCheck size={20} />
+            Libro de Reclamaciones
           </Link>
         </div>
       </div>
