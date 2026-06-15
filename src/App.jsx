@@ -10,6 +10,7 @@ import Favoritos from "./paginas/juegos/Favoritos";
 import "./App.css";
 import Consolaspag from "./paginas/consola/consolas";
 import Accesorios from "./paginas/accesorios/Accesorios";
+import LibroReclamaciones from "./paginas/libro-reclamaciones/LibroReclamaciones";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/consolas" element={<Consolaspag />} />
         <Route path="/favoritos" element={<Favoritos />} />
         <Route path="/accesorios" element={<Accesorios />} />
+        <Route path="/libro-reclamaciones" element={<LibroReclamaciones />} />
       </Routes>
     </BrowserRouter>
   );
