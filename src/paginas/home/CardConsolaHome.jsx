@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CarritoContext } from "../../context/CarritoContext";
 import { supabase } from "../../supabase/client";
 import { Link } from "react-router-dom";
 import { CircleCheck, TriangleAlert, CircleX } from "lucide-react";
-import { commonText, textByLanguage, useLanguage } from "../../i18n/useLanguage";
+import { useTranslation } from "react-i18next";
 
 function CardConsolaHome({ producto, addToast }) {
-  const idioma = useLanguage();
-  const textos = textByLanguage(commonText, idioma);
+  const { t } = useTranslation();
   const { agregarAlCarrito } = useContext(CarritoContext);
 
   const { imagen, titulo, consola, descripcion, precio } = producto;
@@ -50,9 +49,9 @@ function CardConsolaHome({ producto, addToast }) {
       productoConStock.nombre || productoConStock.titulo || "Producto";
 
     if (agregado) {
-      addToast(`${nombreProducto} ${textos.addedToCart}`, productoConStock.id);
+      addToast(`${nombreProducto} ${t("common.addedToCart")}`, productoConStock.id);
     } else {
-      addToast(textos.noMoreUnits, productoConStock.id);
+      addToast(t("common.noMoreUnits"), productoConStock.id);
     }
   };
 
@@ -112,21 +111,21 @@ function CardConsolaHome({ producto, addToast }) {
               {stock > 5 && (
                 <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-green-500/20 border border-green-400 text-green-400 text-xs font-semibold">
                   <CircleCheck size={14} />
-                  {textos.available}
+                  {t("common.available")}
                 </span>
               )}
 
               {stock > 0 && stock <= 5 && (
                 <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-yellow-500/20 border border-yellow-400 text-yellow-300 text-xs font-semibold">
                   <TriangleAlert size={14} />
-                  {textos.lastUnits}
+                  {t("common.lastUnits")}
                 </span>
               )}
 
               {stock === 0 && (
                 <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-red-500/20 border border-red-400 text-red-400 text-xs font-semibold">
                   <CircleX size={14} />
-                  {textos.soldOut}
+                  {t("common.soldOut")}
                 </span>
               )}
             </div>
@@ -148,10 +147,10 @@ function CardConsolaHome({ producto, addToast }) {
             `}
           >
             {stock === 0
-              ? textos.noStock
+              ? t("common.noStock")
               : stock === undefined
-                ? textos.loadingStock
-                : textos.addToCart}
+                ? t("common.loadingStock")
+                : t("common.addToCart")}
           </button>
 
           <button
@@ -170,7 +169,7 @@ function CardConsolaHome({ producto, addToast }) {
               transition
             "
           >
-            {textos.seeMore}
+            {t("common.seeMore")}
           </button>
         </div>
       </div>
@@ -247,21 +246,21 @@ function CardConsolaHome({ producto, addToast }) {
                   {stock > 5 && (
                     <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-green-500/20 border border-green-400 text-green-400 text-xs font-semibold">
                       <CircleCheck size={14} />
-                      {textos.available}
+                      {t("common.available")}
                     </span>
                   )}
 
                   {stock > 0 && stock <= 5 && (
                     <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-yellow-500/20 border border-yellow-400 text-yellow-300 text-xs font-semibold">
                       <TriangleAlert size={14} />
-                      {textos.lastUnits}
+                      {t("common.lastUnits")}
                     </span>
                   )}
 
                   {stock === 0 && (
                     <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-red-500/20 border border-red-400 text-red-400 text-xs font-semibold">
                       <CircleX size={14} />
-                      {textos.soldOut}
+                      {t("common.soldOut")}
                     </span>
                   )}
                 </div>
@@ -294,10 +293,10 @@ function CardConsolaHome({ producto, addToast }) {
                 `}
               >
                 {stock === 0
-                  ? textos.noStock
+                  ? t("common.noStock")
                   : stock === undefined
-                    ? textos.loadingStock
-                    : textos.addToCart}
+                    ? t("common.loadingStock")
+                    : t("common.addToCart")}
               </button>
             </div>
           </div>

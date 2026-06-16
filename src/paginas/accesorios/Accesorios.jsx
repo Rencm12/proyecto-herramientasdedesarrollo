@@ -1,62 +1,12 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAccesorios } from "../../hook/Useaccesorios";
 import Card from "./Cardaccesorios";
 import CarruselAccesorios from "./Carrusel";
 import Footer from "../../components/Footer";
-import { commonText, textByLanguage, useLanguage } from "../../i18n/useLanguage";
-
-const ACCESSORIES_TEXT = {
-  es: {
-    title: "Catalogo de Accesorios",
-    loading: "Cargando accesorios...",
-    loadError: "Error al cargar",
-    search: "Buscar accesorio...",
-    lowerToHigher: "Menor a Mayor Precio",
-    higherToLower: "Mayor a Menor Precio",
-    typeAll: "Tipo (Todos)",
-    exclusives: "Exclusivas",
-    limited: "Limitadas",
-    noResults: "No se encontraron accesorios con estos filtros.",
-    resetSearch: "Restablecer busqueda",
-    showing: "Mostrando",
-    results: "resultados",
-  },
-  en: {
-    title: "Accessories Catalog",
-    loading: "Loading accessories...",
-    loadError: "Loading error",
-    search: "Search accessory...",
-    lowerToHigher: "Lowest to Highest Price",
-    higherToLower: "Highest to Lowest Price",
-    typeAll: "Type (All)",
-    exclusives: "Exclusives",
-    limited: "Limited",
-    noResults: "No accessories found with these filters.",
-    resetSearch: "Reset search",
-    showing: "Showing",
-    results: "results",
-  },
-  pt: {
-    title: "Catalogo de Acessorios",
-    loading: "Carregando acessorios...",
-    loadError: "Erro ao carregar",
-    search: "Buscar acessorio...",
-    lowerToHigher: "Menor para Maior Preco",
-    higherToLower: "Maior para Menor Preco",
-    typeAll: "Tipo (Todos)",
-    exclusives: "Exclusivos",
-    limited: "Limitados",
-    noResults: "Nenhum acessorio encontrado com estes filtros.",
-    resetSearch: "Redefinir busca",
-    showing: "Mostrando",
-    results: "resultados",
-  },
-};
 
 function Accesorios() {
-  const idioma = useLanguage();
-  const textos = textByLanguage(ACCESSORIES_TEXT, idioma);
-  const comunes = textByLanguage(commonText, idioma);
+  const { t } = useTranslation();
   const { accesorios: listaDeAccesorios, cargando, error } = useAccesorios();
 
   const [busqueda, setBusqueda] = useState("");
@@ -115,7 +65,7 @@ function Accesorios() {
     return (
       <div className="min-h-screen bg-[#0f1115] flex items-center justify-center">
         <p className="text-[#00ffc3] text-xl animate-pulse">
-          {textos.loading}
+          {t("accessories.loading")}
         </p>
       </div>
     );
@@ -125,7 +75,7 @@ function Accesorios() {
     return (
       <div className="min-h-screen bg-[#0f1115] flex items-center justify-center">
         <p className="text-red-400 text-xl">
-          {textos.loadError}: {error}
+          {t("accessories.loadError")}: {error}
         </p>
       </div>
     );
@@ -138,14 +88,14 @@ function Accesorios() {
       </div>
 
       <h1 className="text-4xl text-[#00ffc3] font-bold text-center mb-0">
-        {textos.title}
+        {t("accessories.title")}
       </h1>
 
       <div className="max-w-[1400px] mx-auto mb-10 bg-[#151921] p-3 rounded-2xl flex flex-col xl:flex-row items-center gap-4 shadow-lg border border-gray-800">
         <div className="w-full xl:flex-1">
           <input
             type="text"
-            placeholder={textos.search}
+            placeholder={t("accessories.search")}
             value={busqueda}
             onChange={(event) => setBusqueda(event.target.value)}
             className="w-full bg-[#1e232d] text-gray-300 placeholder-gray-500 rounded-xl px-5 py-3 focus:outline-none focus:ring-1 focus:ring-[#00ffc3] transition"
@@ -158,9 +108,9 @@ function Accesorios() {
             onChange={(event) => setOrden(event.target.value)}
             className="flex-1 lg:flex-none bg-[#1e232d] text-gray-300 rounded-xl px-3 py-3 cursor-pointer focus:outline-none hover:bg-[#252b36] transition appearance-none text-sm"
           >
-            <option value="Recomendados">{comunes.sortBy}</option>
-            <option value="Menor Precio">{textos.lowerToHigher}</option>
-            <option value="Mayor Precio">{textos.higherToLower}</option>
+            <option value="Recomendados">{t("common.sortBy")}</option>
+            <option value="Menor Precio">{t("accessories.lowerToHigher")}</option>
+            <option value="Mayor Precio">{t("accessories.higherToLower")}</option>
           </select>
 
           <select
@@ -168,7 +118,7 @@ function Accesorios() {
             onChange={(event) => setPlataforma(event.target.value)}
             className="flex-1 lg:flex-none bg-[#1e232d] text-gray-300 rounded-xl px-3 py-3 cursor-pointer focus:outline-none hover:bg-[#252b36] transition appearance-none text-sm"
           >
-            <option value="Todas">{comunes.platform}</option>
+            <option value="Todas">{t("common.platform")}</option>
             {plataformasDisponibles.map((plat) => (
               <option key={plat} value={plat}>
                 {plat}
@@ -181,7 +131,7 @@ function Accesorios() {
             onChange={(event) => setCategoria(event.target.value)}
             className="flex-1 lg:flex-none bg-[#1e232d] text-gray-300 rounded-xl px-3 py-3 cursor-pointer focus:outline-none hover:bg-[#252b36] transition appearance-none text-sm"
           >
-            <option value="Todas">{comunes.category}</option>
+            <option value="Todas">{t("common.category")}</option>
             {categoriasDisponibles.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
@@ -194,16 +144,16 @@ function Accesorios() {
             onChange={(event) => setEtiqueta(event.target.value)}
             className="flex-1 lg:flex-none bg-[#1e232d] text-gray-300 rounded-xl px-3 py-3 cursor-pointer focus:outline-none hover:bg-[#252b36] transition appearance-none text-sm"
           >
-            <option value="Todas">{textos.typeAll}</option>
-            <option value="Exclusiva">{textos.exclusives}</option>
-            <option value="Limitada">{textos.limited}</option>
+            <option value="Todas">{t("accessories.typeAll")}</option>
+            <option value="Exclusiva">{t("accessories.exclusives")}</option>
+            <option value="Limitada">{t("accessories.limited")}</option>
           </select>
 
           <button
             onClick={limpiarFiltros}
             className="w-full lg:w-auto bg-[#ff3b3b] hover:bg-[#ff5252] text-white font-bold py-3 px-6 rounded-xl transition shadow-[0_0_15px_rgba(255,59,59,0.3)] cursor-pointer text-sm"
           >
-            {comunes.clear}
+            {t("common.clear")}
           </button>
         </div>
       </div>
@@ -211,18 +161,21 @@ function Accesorios() {
       <main className="max-w-[1400px] mx-auto">
         {productosProcesados.length === 0 ? (
           <div className="text-center py-20 bg-[#151921] rounded-3xl border border-gray-800">
-            <p className="text-gray-400 text-xl mb-4">{textos.noResults}</p>
+            <p className="text-gray-400 text-xl mb-4">
+              {t("accessories.noResults")}
+            </p>
             <button
               onClick={limpiarFiltros}
               className="text-[#00ffc3] font-bold hover:underline cursor-pointer"
             >
-              {textos.resetSearch}
+              {t("accessories.resetSearch")}
             </button>
           </div>
         ) : (
           <>
             <p className="text-gray-500 text-sm mb-6 ml-2">
-              {textos.showing} {productosProcesados.length} {textos.results}
+              {t("accessories.showing")} {productosProcesados.length}{" "}
+              {t("accessories.results")}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {productosProcesados.map((item) => (

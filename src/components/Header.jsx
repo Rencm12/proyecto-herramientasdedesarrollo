@@ -8,58 +8,16 @@ import { FavoritosContext } from "../context/FavoritosContext";
 import CheckoutModal from "./CheckoutModal";
 import CarritoSidebar from "./CarritoSidebar";
 import AccessibilityMenu from "./Accesibilidad";
-import { useLanguage } from "../i18n/useLanguage";
-
-const HEADER_TEXT = {
-  es: {
-    login: "Ingresar",
-    logout: "Salir",
-    customer: "Cliente",
-    accessibility: "Abrir menu de accesibilidad",
-    nav: [
-      { label: "Inicio", path: "/" },
-      { label: "Consolas", path: "/consolas" },
-      { label: "Juegos", path: "/juegos" },
-      { label: "Accesorios", path: "/accesorios" },
-      { label: "Nosotros", path: "/nosotros" },
-    ],
-  },
-  en: {
-    login: "Sign in",
-    logout: "Log out",
-    customer: "Customer",
-    accessibility: "Open accessibility menu",
-    nav: [
-      { label: "Home", path: "/" },
-      { label: "Consoles", path: "/consolas" },
-      { label: "Games", path: "/juegos" },
-      { label: "Accessories", path: "/accesorios" },
-      { label: "About us", path: "/nosotros" },
-    ],
-  },
-  pt: {
-    login: "Entrar",
-    logout: "Sair",
-    customer: "Cliente",
-    accessibility: "Abrir menu de acessibilidade",
-    nav: [
-      { label: "Inicio", path: "/" },
-      { label: "Consoles", path: "/consolas" },
-      { label: "Jogos", path: "/juegos" },
-      { label: "Acessorios", path: "/accesorios" },
-      { label: "Sobre nos", path: "/nosotros" },
-    ],
-  },
-};
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const [mostrarLogin, setMostrarLogin] = useState(false);
   const [mostrarCheckout, setMostrarCheckout] = useState(false);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
   const [mostrarAccesibilidad, setMostrarAccesibilidad] = useState(false);
-  const idioma = useLanguage();
+  const { t } = useTranslation();
   const [usuario, setUsuario] = useState(null);
-  const textos = HEADER_TEXT[idioma] ?? HEADER_TEXT.es;
+  const navItems = t("header.nav", { returnObjects: true });
 
   const { carrito } = useContext(CarritoContext);
   const { favoritos } = useContext(FavoritosContext);
@@ -155,7 +113,7 @@ const Header = () => {
       md:text-base
     "
           >
-            {textos.nav.map((item) => (
+            {navItems.map((item) => (
                 <li
                   key={item.path}
                   className="
@@ -198,11 +156,11 @@ const Header = () => {
                   drop-shadow-[0_0_8px_rgba(0,255,195,0.5)]
                 "
               >
-                {usuario.user_metadata?.nombre || textos.customer}
+                {usuario.user_metadata?.nombre || t("header.customer")}
               </span>
 
               <button onClick={cerrarSesion} className="btn-primary">
-                {textos.logout}
+                {t("header.logout")}
               </button>
             </div>
           ) : (
@@ -210,7 +168,7 @@ const Header = () => {
               className="btn-primary"
               onClick={() => setMostrarLogin(true)}
             >
-              {textos.login}
+              {t("header.login")}
             </button>
           )}
 
@@ -218,7 +176,7 @@ const Header = () => {
           <button
             type="button"
             onClick={() => setMostrarAccesibilidad((actual) => !actual)}
-            aria-label={textos.accessibility}
+            aria-label={t("header.accessibility")}
             aria-expanded={mostrarAccesibilidad}
             className="
               w-11

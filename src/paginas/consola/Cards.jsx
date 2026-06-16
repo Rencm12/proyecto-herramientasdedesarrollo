@@ -3,29 +3,12 @@ import { useState } from "react";
 import Card from "./Card-consola";
 import FiltroConsolas from "./Filtro-consola";
 import { useConsolas } from "../../hook/Useconsola";
-import { commonText, textByLanguage, useLanguage } from "../../i18n/useLanguage";
-
-const CONSOLES_LIST_TEXT = {
-  es: {
-    loading: "Cargando consolas...",
-    noResults: "No se encontraron consolas con los filtros aplicados.",
-  },
-  en: {
-    loading: "Loading consoles...",
-    noResults: "No consoles found with the selected filters.",
-  },
-  pt: {
-    loading: "Carregando consoles...",
-    noResults: "Nenhum console encontrado com os filtros aplicados.",
-  },
-};
+import { useTranslation } from "react-i18next";
 
 const ITEMS_POR_PAGINA = 8; // ajusta según necesites
 
 function Consolas() {
-  const idioma = useLanguage();
-  const textos = textByLanguage(CONSOLES_LIST_TEXT, idioma);
-  const comunes = textByLanguage(commonText, idioma);
+  const { t } = useTranslation();
   const { productos, loading, error, filtros, setFiltros } = useConsolas();
   const [paginaActual, setPaginaActual] = useState(1);
 
@@ -54,7 +37,7 @@ function Consolas() {
         {loading && (
           <div className="flex items-center justify-center h-64">
             <span className="text-[#00ffc3] text-lg animate-pulse">
-              {textos.loading}
+              {t("consolesList.loading")}
             </span>
           </div>
         )}
@@ -70,7 +53,7 @@ function Consolas() {
         {!loading && !error && productos.length === 0 && (
           <div className="flex items-center justify-center h-64">
             <p className="text-gray-400 text-center">
-              {textos.noResults}
+              {t("consolesList.noResults")}
             </p>
           </div>
         )}
@@ -94,7 +77,7 @@ function Consolas() {
                   disabled={paginaActual === 1}
                   className="px-4 py-2 rounded-lg bg-[#1e293b] text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#334155] transition"
                 >
-                  {comunes.previous}
+                  {t("common.previous")}
                 </button>
 
                 {[...Array(totalPaginas)].map((_, index) => {
@@ -121,7 +104,7 @@ function Consolas() {
                   disabled={paginaActual === totalPaginas}
                   className="px-4 py-2 rounded-lg bg-[#1e293b] text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#334155] transition"
                 >
-                  {comunes.next}
+                  {t("common.next")}
                 </button>
               </div>
             )}

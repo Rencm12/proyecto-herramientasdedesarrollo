@@ -1,45 +1,13 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Toast from "../../components/Toast";
 import Carrusel from "./Carrusel";
 import { supabase } from "../../supabase/client";
 import CardJuego from "../../components/CardJuego";
 import Footer from "../../components/Footer";
-import { commonText, textByLanguage, useLanguage } from "../../i18n/useLanguage";
-
-const GAMES_TEXT = {
-  es: {
-    title: "Catalogo de Videojuegos",
-    loading: "Cargando juegos...",
-    search: "Buscar juego...",
-    noResults: "No se encontraron juegos",
-    action: "Accion",
-    adventure: "Aventura",
-    sports: "Deportes",
-  },
-  en: {
-    title: "Video Game Catalog",
-    loading: "Loading games...",
-    search: "Search game...",
-    noResults: "No games found",
-    action: "Action",
-    adventure: "Adventure",
-    sports: "Sports",
-  },
-  pt: {
-    title: "Catalogo de Jogos",
-    loading: "Carregando jogos...",
-    search: "Buscar jogo...",
-    noResults: "Nenhum jogo encontrado",
-    action: "Acao",
-    adventure: "Aventura",
-    sports: "Esportes",
-  },
-};
 
 function Juegos() {
-  const idioma = useLanguage();
-  const textos = textByLanguage(GAMES_TEXT, idioma);
-  const comunes = textByLanguage(commonText, idioma);
+  const { t } = useTranslation();
   const [busqueda, setBusqueda] = useState("");
   const [plataforma, setPlataforma] = useState("");
   const [categoria, setCategoria] = useState("");
@@ -110,17 +78,17 @@ function Juegos() {
 
       <section className="p-10">
         <h2 className="text-center text-4xl text-[#00ffc3] font-bold mb-10">
-          {textos.title}
+          {t("games.title")}
         </h2>
 
         {cargando && (
-          <p className="text-center text-white mb-10">{textos.loading}</p>
+          <p className="text-center text-white mb-10">{t("games.loading")}</p>
         )}
 
         <div className="flex flex-wrap gap-4 bg-[#020617] p-5 rounded-xl mb-10">
           <input
             type="text"
-            placeholder={textos.search}
+            placeholder={t("games.search")}
             value={busqueda}
             onChange={(event) => {
               setBusqueda(event.target.value);
@@ -138,10 +106,10 @@ function Juegos() {
             className="bg-[#1e293b] text-white px-4 py-2 rounded-full"
           >
             <option value="" disabled hidden>
-              {comunes.sortBy}
+              {t("common.sortBy")}
             </option>
-            <option value="menor">{comunes.lowerPrice}</option>
-            <option value="mayor">{comunes.higherPrice}</option>
+            <option value="menor">{t("common.lowerPrice")}</option>
+            <option value="mayor">{t("common.higherPrice")}</option>
           </select>
 
           <select
@@ -153,7 +121,7 @@ function Juegos() {
             className="bg-[#1e293b] text-white px-4 py-2 rounded-full"
           >
             <option value="" disabled hidden>
-              {comunes.platform}
+              {t("common.platform")}
             </option>
             <option value="PS5">PS5</option>
             <option value="Xbox">Xbox</option>
@@ -169,11 +137,11 @@ function Juegos() {
             className="bg-[#1e293b] text-white px-4 py-2 rounded-full"
           >
             <option value="" disabled hidden>
-              {comunes.category}
+              {t("common.category")}
             </option>
-            <option value="AcciÃ³n">{textos.action}</option>
-            <option value="Aventura">{textos.adventure}</option>
-            <option value="Deportes">{textos.sports}</option>
+            <option value="Acción">{t("games.action")}</option>
+            <option value="Aventura">{t("games.adventure")}</option>
+            <option value="Deportes">{t("games.sports")}</option>
           </select>
 
           <button
@@ -186,7 +154,7 @@ function Juegos() {
             }}
             className="bg-red-500 text-white px-4 py-2 rounded-full font-bold"
           >
-            {comunes.clear}
+            {t("common.clear")}
           </button>
         </div>
 
@@ -197,7 +165,7 @@ function Juegos() {
         </div>
 
         {!cargando && juegosFiltrados.length === 0 && (
-          <p className="text-center text-white mt-10">{textos.noResults}</p>
+          <p className="text-center text-white mt-10">{t("games.noResults")}</p>
         )}
 
         {totalPaginas > 1 && (
@@ -207,7 +175,7 @@ function Juegos() {
               disabled={paginaActual === 1}
               className="px-4 py-2 rounded-lg bg-[#1e293b] text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#334155] transition"
             >
-              {comunes.previous}
+              {t("common.previous")}
             </button>
 
             {[...Array(totalPaginas)].map((_, index) => {
@@ -235,7 +203,7 @@ function Juegos() {
               disabled={paginaActual === totalPaginas}
               className="px-4 py-2 rounded-lg bg-[#1e293b] text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#334155] transition"
             >
-              {comunes.next}
+              {t("common.next")}
             </button>
           </div>
         )}
