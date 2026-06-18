@@ -95,7 +95,7 @@ const Header = () => {
   "
       >
         {/* LOGO */}
-        <div className="text-[20px] md:text-[24px] text-[#00ffc3] font-bold">
+        <div className="text-[20px] md:text-[24px] text-[#00ffc3] font-slackey ">
           GameHub
         </div>
 
@@ -191,6 +191,7 @@ const Header = () => {
               hover:bg-[#00ffc3]
               hover:text-black
               transition
+              font-slackey
             "
           >
             <PersonStanding size={24} />

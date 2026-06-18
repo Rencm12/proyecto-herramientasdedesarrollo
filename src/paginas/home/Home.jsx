@@ -40,7 +40,7 @@ function Home() {
       <CarruselHome />
 
       <section className="text-center py-16 px-5">
-        <h1 className="text-5xl md:text-6xl font-bold text-[#00ffc3] mb-6">
+        <h1 className="text-5xl md:text-6xl font-Slackey text-[#00ffc3] mb-6">
           {t("home.title")}
         </h1>
 
