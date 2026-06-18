@@ -178,25 +178,29 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
       else if (item.tipo === "consola") tabla = "consolas";
       else if (item.tipo === "accesorio") tabla = "accesorios";
 
-      if (tabla) {
-        const { data: producto } = await supabase
+      const idNumerico = Number(item.id);
+
+      if (tabla && Number.isFinite(idNumerico)) {
+        const { data: producto, error: errorProducto } = await supabase
           .from(tabla)
           .select("stock")
-          .eq("id", item.id)
+          .eq("id", idNumerico)
           .single();
+
+        if (errorProducto || !producto) {
+          throw new Error(`No se pudo verificar el stock de ${item.nombre}`);
+        }
 
         if (producto.stock < item.cantidad) {
           throw new Error(`${item.nombre} ya no tiene stock suficiente`);
         }
 
-        if (producto) {
-          const nuevoStock = Math.max(0, producto.stock - item.cantidad);
+        const nuevoStock = Math.max(0, producto.stock - item.cantidad);
 
-          await supabase
-            .from(tabla)
-            .update({ stock: nuevoStock })
-            .eq("id", item.id);
-        }
+        await supabase
+          .from(tabla)
+          .update({ stock: nuevoStock })
+          .eq("id", idNumerico);
       }
     }
   };
@@ -327,15 +331,15 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999] p-5">
-      <div className="bg-[#111827] w-full max-w-[800px] rounded-2xl p-8 relative shadow-[0_0_30px_rgba(0,255,195,0.5)] overflow-y-auto max-h-[90vh]">
+      <div className="bg-[#111827] w-full max-w-[800px] rounded-2xl p-8 relative shadow-[0_0_30px_rgba(134,225,255,0.5)] overflow-y-auto max-h-[90vh]">
         <button
           onClick={cerrar}
-          className="absolute top-4 right-4 text-white text-2xl hover:text-[#00ffc3]"
+          className="absolute top-4 right-4 text-white text-2xl hover:text-[#86E1FF]"
         >
           <X />
         </button>
 
-        <h2 className="text-3xl font-bold text-[#00ffc3] mb-6">
+        <h2 className="text-3xl font-bold text-[#86E1FF] mb-6">
           Finalizar compra
         </h2>
 
@@ -352,7 +356,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
         )}
 
         <div className="mb-6">
-          <h3 className="text-[#00ffc3] font-bold mb-3">Datos de Envío</h3>
+          <h3 className="text-[#86E1FF] font-bold mb-3">Datos de Envío</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <input
               type="text"
@@ -360,7 +364,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
               value={nombre}
               onChange={(e) => setNombre(e.target.value.substring(0, 50))}
               maxLength="50"
-              className="bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#00ffc3]"
+              className="bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#86E1FF]"
             />
             <input
               type="email"
@@ -377,7 +381,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
                 setTelefono(e.target.value.replace(/\D/g, "").substring(0, 9))
               }
               maxLength="9"
-              className="bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#00ffc3]"
+              className="bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#86E1FF]"
             />
             <input
               type="text"
@@ -385,13 +389,13 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
               value={direccion}
               onChange={(e) => setDireccion(e.target.value.substring(0, 100))}
               maxLength="100"
-              className="bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#00ffc3]"
+              className="bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#86E1FF]"
             />
           </div>
         </div>
 
         <div className="mb-6">
-          <h3 className="text-[#00ffc3] font-bold mb-3">Método de Pago</h3>
+          <h3 className="text-[#86E1FF] font-bold mb-3">Método de Pago</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {metodosDePago.map((metodo) => (
               <button
@@ -403,12 +407,12 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
                 }}
                 className={`p-4 rounded-xl border-2 transition text-left ${
                   metodoPago === metodo.id
-                    ? "border-[#00ffc3] bg-[#00ffc3]/10"
-                    : "border-gray-700 bg-[#1e293b] hover:border-[#00ffc3]/50"
+                    ? "border-[#86E1FF] bg-[#86E1FF]/10"
+                    : "border-gray-700 bg-[#1e293b] hover:border-[#86E1FF]/50"
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <metodo.Icon size={28} className="text-[#00ffc3]" />
+                  <metodo.Icon size={28} className="text-[#86E1FF]" />
                   <div>
                     <p className="font-bold text-white">{metodo.nombre}</p>
                     <p className="text-xs text-gray-400">
@@ -416,7 +420,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
                     </p>
                   </div>
                   {metodoPago === metodo.id && (
-                    <Check className="ml-auto text-[#00ffc3]" size={20} />
+                    <Check className="ml-auto text-[#86E1FF]" size={20} />
                   )}
                 </div>
               </button>
@@ -424,7 +428,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
           </div>
 
           {metodoPago && (
-            <div className="mt-4 p-4 bg-[#1e293b] rounded-xl border border-[#00ffc3]/30">
+            <div className="mt-4 p-4 bg-[#1e293b] rounded-xl border border-[#86E1FF]/30">
               <p className="text-gray-300 text-sm">
                 {metodosDePago.find((m) => m.id === metodoPago)?.instrucciones}
               </p>
@@ -436,7 +440,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
           metodosDePago.find((m) => m.id === metodoPago)
             ?.requiereComprobante && (
             <div className="mt-4">
-              <label className="block text-[#00ffc3] font-bold mb-2">
+              <label className="block text-[#86E1FF] font-bold mb-2">
                 Código de operación
               </label>
 
@@ -456,7 +460,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
           rounded-xl
           outline-none
           focus:ring-1
-          focus:ring-[#00ffc3]
+          focus:ring-[#86E1FF]
         "
               />
             </div>
@@ -464,9 +468,9 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
 
         {metodoPago === "Tarjeta" && (
           <div className="mb-6">
-            <div className="bg-gradient-to-r from-[#1e293b] to-[#2d3748] p-6 rounded-2xl border border-[#00ffc3]/30 mb-4">
+            <div className="bg-gradient-to-r from-[#1e293b] to-[#2d3748] p-6 rounded-2xl border border-[#86E1FF]/30 mb-4">
               <div className="flex justify-between items-start mb-8">
-                <CreditCard size={32} className="text-[#00ffc3]" />
+                <CreditCard size={32} className="text-[#86E1FF]" />
                 <span className="text-gray-400 text-sm">
                   {numeroTarjeta ? "Tarjeta válida" : "Ingresa datos"}
                 </span>
@@ -503,7 +507,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
                   )
                 }
                 maxLength="19"
-                className="w-full bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#00ffc3]"
+                className="w-full bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#86E1FF]"
               />
 
               <input
@@ -514,7 +518,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
                   setNombreTitular(e.target.value.substring(0, 50))
                 }
                 maxLength="50"
-                className="w-full bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#00ffc3]"
+                className="w-full bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#86E1FF]"
               />
 
               <div className="grid grid-cols-2 gap-3">
@@ -526,7 +530,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
                     setFechaVencimiento(formatearFecha(e.target.value))
                   }
                   maxLength="5"
-                  className="bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#00ffc3]"
+                  className="bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#86E1FF]"
                 />
 
                 <input
@@ -535,7 +539,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
                   value={cvv}
                   onChange={(e) => setCvv(e.target.value.slice(0, 4))}
                   maxLength="4"
-                  className="bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#00ffc3]"
+                  className="bg-[#1e293b] text-white p-3 rounded-xl outline-none focus:ring-1 focus:ring-[#86E1FF]"
                 />
               </div>
             </div>
@@ -546,11 +550,11 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
           metodosDePago.find((m) => m.id === metodoPago)
             ?.requiereComprobante && (
             <div className="mb-6">
-              <h3 className="text-[#00ffc3] font-bold mb-3">
+              <h3 className="text-[#86E1FF] font-bold mb-3">
                 Subir Comprobante
               </h3>
-              <label className="flex items-center justify-center gap-3 p-4 bg-[#1e293b] rounded-xl border-2 border-dashed border-[#00ffc3]/50 cursor-pointer hover:border-[#00ffc3] transition">
-                <Upload size={20} className="text-[#00ffc3]" />
+              <label className="flex items-center justify-center gap-3 p-4 bg-[#1e293b] rounded-xl border-2 border-dashed border-[#86E1FF]/50 cursor-pointer hover:border-[#86E1FF] transition">
+                <Upload size={20} className="text-[#86E1FF]" />
                 <div>
                   <p className="text-white font-bold">
                     {nombreComprobante || "Selecciona tu comprobante"}
@@ -570,7 +574,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
           )}
 
         <div className="mb-6">
-          <h3 className="text-[#00ffc3] font-bold mb-3">Productos</h3>
+          <h3 className="text-[#86E1FF] font-bold mb-3">Productos</h3>
           <div className="bg-[#1e293b] rounded-xl p-4 max-h-48 overflow-y-auto">
             {carrito.map((item, index) => (
               <div
@@ -583,7 +587,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
                     Cantidad: {item.cantidad}
                   </p>
                 </div>
-                <p className="text-[#00ffc3] font-bold">
+                <p className="text-[#86E1FF] font-bold">
                   S/ {(item.precio * item.cantidad).toFixed(2)}
                 </p>
               </div>
@@ -594,7 +598,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
         <div className="border-t border-gray-700 pt-4">
           <div className="flex justify-between items-center mb-4 text-xl">
             <span className="text-white font-bold">Total:</span>
-            <span className="text-[#00ffc3] font-bold">
+            <span className="text-[#86E1FF] font-bold">
               S/ {total.toFixed(2)}
             </span>
           </div>
@@ -602,7 +606,7 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
           <button
             onClick={finalizarCompra}
             disabled={cargando}
-            className="w-full bg-[#00ffc3] text-black py-4 rounded-xl font-bold hover:bg-[#00d7aa] transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-[#86E1FF] text-black py-4 rounded-xl font-bold hover:bg-[#5C7CFA] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {cargando ? "Procesando..." : "Confirmar Compra"}
           </button>

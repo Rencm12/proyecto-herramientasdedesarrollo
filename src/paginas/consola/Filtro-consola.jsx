@@ -1,6 +1,7 @@
 // src/pages/consolas/Filtro-consola.jsx  ← reemplaza el archivo actual
 // Ahora recibe filtros centralizados desde useConsolas (sin estado local duplicado)
 import { useMemo } from "react";
+import { Gamepad } from "lucide-react";
 
 function FiltroConsolas({ productos, filtros, setFiltros }) {
   const { busqueda, consolas: seleccionadas, tipo: tipoFiltro } = filtros;
@@ -8,13 +9,12 @@ function FiltroConsolas({ productos, filtros, setFiltros }) {
   // Lista única de marcas extraída de los productos actuales
   const marcas = useMemo(
     () => [...new Set(productos.map((p) => p.consola))],
-    [productos]
+    [productos],
   );
 
   // ── Handlers ────────────────────────────────────────────────────────────────
 
-  const handleBusqueda = (e) =>
-    setFiltros({ busqueda: e.target.value });
+  const handleBusqueda = (e) => setFiltros({ busqueda: e.target.value });
 
   const handleCheckbox = (consola) => {
     const nuevas = seleccionadas.includes(consola)
@@ -42,7 +42,8 @@ function FiltroConsolas({ productos, filtros, setFiltros }) {
       "
     >
       <h2 className="text-center mb-5 text-xl font-bold">
-        🎮 Filtrar Consolas
+        <Gamepad size={20} className="inline-block mr-2 text-[#86E1FF]" />
+        Filtrar Consolas
       </h2>
 
       {/* Búsqueda por texto */}
@@ -101,7 +102,10 @@ function FiltroConsolas({ productos, filtros, setFiltros }) {
 
       {/* Contador */}
       <div className="mt-5 bg-zinc-950 p-3 rounded-xl text-sm">
-        <span>Mostrando {productos.length} producto{productos.length !== 1 ? "s" : ""}</span>
+        <span>
+          Mostrando {productos.length} producto
+          {productos.length !== 1 ? "s" : ""}
+        </span>
       </div>
 
       {/* Limpiar */}
@@ -109,8 +113,8 @@ function FiltroConsolas({ productos, filtros, setFiltros }) {
         onClick={limpiarFiltros}
         className="
           mt-5 w-full py-3
-          bg-cyan-400 text-black rounded-xl font-bold
-          hover:bg-cyan-500 duration-300
+          bg-red-500 text-black rounded-xl font-bold
+          hover:bg-red-600 duration-300
         "
       >
         Limpiar Filtros

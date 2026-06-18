@@ -50,322 +50,305 @@ function Nosotros() {
   ];
 
   return (
-    <div className="text-white p-10 max-w-7xl mx-auto">
+    <>
+      <div className="text-white bg-[#0f172a] min-h-screen p-15">
+        <h1 className="text-5xl font-bold text-[#86E1FF] text-center mb-10">
+          Sobre GameHub
+        </h1>
 
-      <h1 className="text-5xl font-bold text-[#00ffc3] text-center mb-10">
-        Sobre GameHub
-      </h1>
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold text-[#86E1FF] mb-4">
+            ¿Quiénes somos?
+          </h2>
 
-      <section className="mb-12">
-        <h2 className="text-3xl font-bold text-[#00ffc3] mb-4">
-          ¿Quiénes somos?
-        </h2>
+          <p className="leading-8 text-lg">
+            GameHub es una plataforma web orientada a brindar una experiencia
+            interactiva en el mundo de los videojuegos, que cuenta con apartados
+            como inicio, juegos, consolas, accesorios y login, permitiendo a los
+            usuarios explorar contenido variado y relevante en un solo lugar.
+            Nuestro objetivo es facilitar la navegación y búsqueda de
+            información, organizar preferencias personales y ofrecer una
+            experiencia moderna para la comunidad gamer.
+          </p>
+        </section>
 
-        <p className="leading-8 text-lg">
-          GameHub es una plataforma web orientada a brindar una experiencia
-          interactiva en el mundo de los videojuegos, que cuenta con apartados
-          como inicio, juegos, consolas, accesorios y login, permitiendo a los
-          usuarios explorar contenido variado y relevante en un solo lugar.
-          Nuestro objetivo es facilitar la navegación y búsqueda de información,
-          organizar preferencias personales y ofrecer una experiencia moderna
-          para la comunidad gamer.
-        </p>
-      </section>
-
-      <section className="mb-6">
-
-        <button
-          onClick={() => setMisionVisionAbierto(!misionVisionAbierto)}
-          className="
+        <section className="mb-6">
+          <button
+            onClick={() => setMisionVisionAbierto(!misionVisionAbierto)}
+            className="
       w-full
       text-left
       bg-slate-900
       border
-      border-[#00ffc3]
+      border-[#5C7CFA]
       p-4
       rounded-xl
       font-bold
-      text-[#00ffc3]
+      text-[#86E1FF]
+      shadow-[0_0_10px_#86E1FF]
     "
-        >
-          {misionVisionAbierto
-            ? "▼ Misión y Visión"
-            : "► Misión y Visión"}
-        </button>
+          >
+            {misionVisionAbierto ? "▼ Misión y Visión" : "► Misión y Visión"}
+          </button>
 
-        {misionVisionAbierto && (
-          <div className="bg-slate-950 border border-[#00ffc3] p-6 rounded-xl mt-3">
+          {misionVisionAbierto && (
+            <div className="bg-slate-950 border border-[#5C7CFA] p-6 rounded-xl mt-3 shadow-[0_0_15px_rgba(134,225,255,0.4),0_0_30px_rgba(134,225,255,0.2)]">
+              <h3 className="font-bold text-xl text-[#86E1FF] mb-2">Misión</h3>
 
-            <h3 className="font-bold text-xl text-[#00ffc3] mb-2">
-              Misión
-            </h3>
+              <p className="mb-6">
+                Brindar a los usuarios una plataforma moderna e intuitiva donde
+                puedan explorar videojuegos, consolas y accesorios, ofreciendo
+                una experiencia organizada, accesible y atractiva.
+              </p>
 
-            <p className="mb-6">
-              Brindar a los usuarios una plataforma moderna e intuitiva donde
-              puedan explorar videojuegos, consolas y accesorios, ofreciendo una
-              experiencia organizada, accesible y atractiva.
-            </p>
+              <h3 className="font-bold text-xl text-[#86E1FF] mb-2">Visión</h3>
 
-            <h3 className="font-bold text-xl text-[#00ffc3] mb-2">
-              Visión
-            </h3>
+              <p>
+                Convertirnos en una plataforma de referencia para la comunidad
+                gamer, incorporando nuevas tecnologías y funcionalidades
+                innovadoras que permitan una experiencia cada vez más completa y
+                personalizada.
+              </p>
+            </div>
+          )}
+        </section>
 
-            <p>
-              Convertirnos en una plataforma de referencia para la comunidad gamer,
-              incorporando nuevas tecnologías y funcionalidades innovadoras que
-              permitan una experiencia cada vez más completa y personalizada.
-            </p>
-
-          </div>
-        )}
-
-      </section>
-
-
-      <section className="mb-12">
-
-        <button
-          onClick={() => setValoresAbierto(!valoresAbierto)}
-          className="
+        <section className="mb-12">
+          <button
+            onClick={() => setValoresAbierto(!valoresAbierto)}
+            className="
       w-full
       text-left
       bg-slate-900
       border
-      border-[#00ffc3]
+      border-[#5C7CFA]
       p-4
       rounded-xl
       font-bold
-      text-[#00ffc3]
+      text-[#86E1FF]
+      shadow-[0_0_10px_#86E1FF]
     "
-        >
-          {valoresAbierto
-            ? "▼ Valores Organizacionales"
-            : "► Valores Organizacionales"}
-        </button>
+          >
+            {valoresAbierto
+              ? "▼ Valores Organizacionales"
+              : "► Valores Organizacionales"}
+          </button>
 
-        {valoresAbierto && (
-          <div className="bg-slate-950 border border-[#00ffc3] p-6 rounded-xl mt-3">
+          {valoresAbierto && (
+            <div className="bg-slate-950 border border-[#5C7CFA] p-6 rounded-xl mt-3 shadow-[0_0_15px_rgba(134,225,255,0.4),0_0_30px_rgba(134,225,255,0.2)]">
+              <ul className="list-disc pl-6 space-y-3 text-lg">
+                <li>
+                  <strong className="text-[#86E1FF]">
+                    Innovación tecnológica:
+                  </strong>{" "}
+                  buscamos mejorar continuamente nuestras soluciones mediante
+                  nuevas tecnologías.
+                </li>
 
-            <ul className="list-disc pl-6 space-y-3 text-lg">
+                <li>
+                  <strong className="text-[#86E1FF]">Trabajo en equipo:</strong>{" "}
+                  fomentamos la colaboración y la comunicación entre los
+                  integrantes.
+                </li>
 
-              <li>
-                <strong>Innovación tecnológica:</strong> buscamos mejorar continuamente
-                nuestras soluciones mediante nuevas tecnologías.
-              </li>
+                <li>
+                  <strong className="text-[#86E1FF]">
+                    Compromiso con la calidad:
+                  </strong>{" "}
+                  desarrollamos funcionalidades eficientes y fáciles de
+                  utilizar.
+                </li>
 
-              <li>
-                <strong>Trabajo en equipo:</strong> fomentamos la colaboración y la
-                comunicación entre los integrantes.
-              </li>
+                <li>
+                  <strong className="text-[#86E1FF]">Responsabilidad:</strong>{" "}
+                  cumplimos con los objetivos y tareas asignadas durante el
+                  proyecto.
+                </li>
 
-              <li>
-                <strong>Compromiso con la calidad:</strong> desarrollamos funcionalidades
-                eficientes y fáciles de utilizar.
-              </li>
+                <li>
+                  <strong className="text-[#86E1FF]">Mejora continua:</strong>{" "}
+                  analizamos constantemente oportunidades para optimizar la
+                  plataforma.
+                </li>
+              </ul>
+            </div>
+          )}
+        </section>
 
-              <li>
-                <strong>Responsabilidad:</strong> cumplimos con los objetivos y tareas
-                asignadas durante el proyecto.
-              </li>
+        <section>
+          <h2 className="text-3xl font-bold text-[#86E1FF] mb-8">
+            Equipo de Desarrollo
+          </h2>
 
-              <li>
-                <strong>Mejora continua:</strong> analizamos constantemente oportunidades
-                para optimizar la plataforma.
-              </li>
-
-            </ul>
-
-          </div>
-        )}
-
-      </section>
-
-
-      <section>
-        <h2 className="text-3xl font-bold text-[#00ffc3] mb-8">
-          Equipo de Desarrollo
-        </h2>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-          {integrantes.map((integrante) => (
-            <div
-              key={integrante.nombre}
-              className="
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {integrantes.map((integrante) => (
+              <div
+                key={integrante.nombre}
+                className="
                 bg-slate-900
                 border
-                border-[#00ffc3]
+                border-[#5C7CFA]
                 rounded-2xl
                 overflow-hidden
-                shadow-lg
+                hover:shadow-[0_0_15px_rgba(134,225,255,0.4),0_0_30px_rgba(134,225,255,0.2)]
+                transition
               "
-            >
-              <img
-                src={integrante.imagen}
-                alt={integrante.nombre}
-                className="w-full h-64 object-cover"
-              />
+              >
+                <img
+                  src={integrante.imagen}
+                  alt={integrante.nombre}
+                  className="w-full h-64 object-cover"
+                />
 
-              <div className="p-5">
-                <h3 className="text-xl font-bold text-[#00ffc3]">
-                  {integrante.nombre}
+                <div className="p-5">
+                  <h3 className="text-xl font-bold text-[#86E1FF]">
+                    {integrante.nombre}
+                  </h3>
+
+                  <p className="font-semibold mt-2">{integrante.rol}</p>
+
+                  <p className="text-sm mt-3 text-gray-300">
+                    {integrante.descripcion}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-16">
+          <h2 className="text-3xl font-bold text-[#86E1FF] mb-6">
+            Información Adicional
+          </h2>
+
+          {/* FAQ */}
+
+          <div className="mb-6">
+            <button
+              onClick={() => setFaqAbierto(!faqAbierto)}
+              className="
+        w-full
+        text-left
+        bg-slate-900
+        border
+        border-[#5C7CFA]
+        p-4
+        rounded-xl
+        font-bold
+        text-[#86E1FF]
+        shadow-[0_0_10px_#86E1FF]
+      "
+            >
+              {faqAbierto ? "▼ Preguntas Frecuentes" : "► Preguntas Frecuentes"}
+            </button>
+
+            {faqAbierto && (
+              <div className="bg-slate-950 border border-[#5C7CFA] p-6 rounded-xl mt-3 shadow-[0_0_15px_rgba(134,225,255,0.4),0_0_30px_rgba(134,225,255,0.2)]">
+                <h3 className="font-bold text-[#86E1FF] text-xl mb-2">
+                  ¿Qué es GameHub?
                 </h3>
 
-                <p className="font-semibold mt-2">
-                  {integrante.rol}
+                <p className="mb-4">
+                  GameHub es una plataforma web orientada al mundo gamer donde
+                  los usuarios pueden explorar videojuegos, consolas y
+                  accesorios.
                 </p>
 
-                <p className="text-sm mt-3 text-gray-300">
-                  {integrante.descripcion}
+                <h3 className="font-bold text-[#86E1FF] text-xl mb-2">
+                  ¿Necesito registrarme?
+                </h3>
+
+                <p className="mb-4">
+                  No necesariamente. Sin embargo, algunas funcionalidades
+                  requieren autenticación para una experiencia más
+                  personalizada.
+                </p>
+
+                <h3 className="font-bold text-[#86E1FF] text-xl mb-2">
+                  ¿Qué productos ofrece GameHub?
+                </h3>
+
+                <p className="mb-4">
+                  Videojuegos, consolas y accesorios relacionados con el
+                  entretenimiento gamer.
+                </p>
+
+                <h3 className="font-bold text-[#86E1FF] text-xl mb-2">
+                  ¿Qué tecnologías utiliza GameHub?
+                </h3>
+
+                <p>React, JavaScript, Tailwind CSS, Supabase y PostgreSQL.</p>
+              </div>
+            )}
+          </div>
+
+          {/* TERMINOS */}
+
+          <div>
+            <button
+              onClick={() => setTerminosAbierto(!terminosAbierto)}
+              className="
+        w-full
+        text-left
+        bg-slate-900
+        border
+        border-[#5C7CFA]
+        p-4
+        rounded-xl
+        font-bold
+        text-[#86E1FF]
+        shadow-[0_0_10px_#86E1FF]
+      "
+            >
+              {terminosAbierto
+                ? "▼ Términos y Condiciones"
+                : "► Términos y Condiciones"}
+            </button>
+
+            {terminosAbierto && (
+              <div className="bg-slate-950 border border-[#5C7CFA] p-6 rounded-xl mt-3 shadow-[0_0_15px_rgba(134,225,255,0.4),0_0_30px_rgba(134,225,255,0.2)]">
+                <h3 className="font-bold text-[#86E1FF] text-xl mb-2">
+                  Uso de la plataforma
+                </h3>
+
+                <p className="mb-4">
+                  GameHub tiene fines informativos y demostrativos dentro del
+                  proyecto académico desarrollado por el equipo.
+                </p>
+
+                <h3 className="font-bold text-[#86E1FF] text-xl mb-2">
+                  Responsabilidad de la información
+                </h3>
+
+                <p className="mb-4">
+                  Se procura mantener información actualizada sobre videojuegos,
+                  consolas y accesorios mostrados en la plataforma.
+                </p>
+
+                <h3 className="font-bold text-[#86E1FF] text-xl mb-2">
+                  Derechos de autor
+                </h3>
+
+                <p className="mb-4">
+                  Las imágenes, marcas y nombres comerciales pertenecen a sus
+                  respectivos propietarios.
+                </p>
+
+                <h3 className="font-bold text-[#86E1FF] text-xl mb-2">
+                  Modificaciones
+                </h3>
+
+                <p>
+                  El equipo de desarrollo podrá actualizar funcionalidades,
+                  diseño y contenido en futuras versiones del sistema.
                 </p>
               </div>
-            </div>
-          ))}
-
-        </div>
-      </section>
-
-      <section className="mt-16">
-
-        <h2 className="text-3xl font-bold text-[#00ffc3] mb-6">
-          Información Adicional
-        </h2>
-
-        {/* FAQ */}
-
-        <div className="mb-6">
-
-          <button
-            onClick={() => setFaqAbierto(!faqAbierto)}
-            className="
-        w-full
-        text-left
-        bg-slate-900
-        border
-        border-[#00ffc3]
-        p-4
-        rounded-xl
-        font-bold
-        text-[#00ffc3]
-      "
-          >
-            {faqAbierto
-              ? "▼ Preguntas Frecuentes"
-              : "► Preguntas Frecuentes"}
-          </button>
-
-          {faqAbierto && (
-
-            <div className="bg-slate-950 border border-[#00ffc3] p-6 rounded-xl mt-3">
-
-              <h3 className="font-bold text-xl mb-2">
-                ¿Qué es GameHub?
-              </h3>
-
-              <p className="mb-4">
-                GameHub es una plataforma web orientada al mundo gamer donde los usuarios pueden explorar videojuegos, consolas y accesorios.
-              </p>
-
-              <h3 className="font-bold text-xl mb-2">
-                ¿Necesito registrarme?
-              </h3>
-
-              <p className="mb-4">
-                No necesariamente. Sin embargo, algunas funcionalidades requieren autenticación para una experiencia más personalizada.
-              </p>
-
-              <h3 className="font-bold text-xl mb-2">
-                ¿Qué productos ofrece GameHub?
-              </h3>
-
-              <p className="mb-4">
-                Videojuegos, consolas y accesorios relacionados con el entretenimiento gamer.
-              </p>
-
-              <h3 className="font-bold text-xl mb-2">
-                ¿Qué tecnologías utiliza GameHub?
-              </h3>
-
-              <p>
-                React, JavaScript, Tailwind CSS, Supabase y PostgreSQL.
-              </p>
-
-            </div>
-
-          )}
-
-        </div>
-
-        {/* TERMINOS */}
-
-        <div>
-
-          <button
-            onClick={() => setTerminosAbierto(!terminosAbierto)}
-            className="
-        w-full
-        text-left
-        bg-slate-900
-        border
-        border-[#00ffc3]
-        p-4
-        rounded-xl
-        font-bold
-        text-[#00ffc3]
-      "
-          >
-            {terminosAbierto
-              ? "▼ Términos y Condiciones"
-              : "► Términos y Condiciones"}
-          </button>
-
-          {terminosAbierto && (
-
-            <div className="bg-slate-950 border border-[#00ffc3] p-6 rounded-xl mt-3">
-
-              <h3 className="font-bold text-xl mb-2">
-                Uso de la plataforma
-              </h3>
-
-              <p className="mb-4">
-                GameHub tiene fines informativos y demostrativos dentro del proyecto académico desarrollado por el equipo.
-              </p>
-
-              <h3 className="font-bold text-xl mb-2">
-                Responsabilidad de la información
-              </h3>
-
-              <p className="mb-4">
-                Se procura mantener información actualizada sobre videojuegos, consolas y accesorios mostrados en la plataforma.
-              </p>
-
-              <h3 className="font-bold text-xl mb-2">
-                Derechos de autor
-              </h3>
-
-              <p className="mb-4">
-                Las imágenes, marcas y nombres comerciales pertenecen a sus respectivos propietarios.
-              </p>
-
-              <h3 className="font-bold text-xl mb-2">
-                Modificaciones
-              </h3>
-
-              <p>
-                El equipo de desarrollo podrá actualizar funcionalidades, diseño y contenido en futuras versiones del sistema.
-              </p>
-
-            </div>
-
-          )}
-
-        </div>
-
-      </section>
-
+            )}
+          </div>
+        </section>
+      </div>
       <Footer />
-
-    </div>
+    </>
   );
 }
 

@@ -90,12 +90,18 @@ export function CarritoProvider({ children }) {
         else if (item.tipo === "consola") tabla = "consolas";
         else if (item.tipo === "accesorio") tabla = "accesorios";
 
-        if (tabla) {
-          const { data: producto } = await supabase
+        const idNumerico = Number(item.producto_id);
+
+        if (tabla && Number.isFinite(idNumerico)) {
+          const { data: producto, error: errorProducto } = await supabase
             .from(tabla)
             .select("stock")
-            .eq("id", Number(item.producto_id))
+            .eq("id", idNumerico)
             .single();
+
+          if (errorProducto) {
+            console.log("Error al verificar stock:", errorProducto);
+          }
 
           const cantidadValida = producto
             ? Math.min(item.cantidad, producto.stock)

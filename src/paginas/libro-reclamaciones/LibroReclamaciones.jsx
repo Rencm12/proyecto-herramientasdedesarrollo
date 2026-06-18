@@ -101,8 +101,8 @@ function LibroReclamaciones() {
     <div className="bg-[#0f172a] min-h-screen text-white">
       <main className="max-w-7xl mx-auto px-5 md:px-10 py-12">
         <section className="grid lg:grid-cols-[0.85fr_1.15fr] gap-8 items-start">
-          <div className="bg-[#020617] border border-[#00ffc3] rounded-2xl p-6 md:p-8 shadow-[0_0_25px_rgba(0,255,195,0.12)]">
-            <div className="flex items-center gap-3 text-[#00ffc3] mb-5">
+          <div className="bg-[#020617] border border-[#5C7CFA] rounded-2xl p-6 md:p-8 shadow-[0_0_15px_rgba(134,225,255,0.4),0_0_30px_rgba(134,225,255,0.2)]">
+            <div className="flex items-center gap-3 text-[#86E1FF] mb-5">
               <BookOpenCheck size={36} />
               <h1 className="text-4xl md:text-5xl font-bold">
                 Libro de Reclamaciones
@@ -117,7 +117,7 @@ function LibroReclamaciones() {
 
             <div className="space-y-4 text-gray-300">
               <div className="flex gap-3">
-                <ShieldCheck className="text-[#00ffc3] shrink-0 mt-1" />
+                <ShieldCheck className="text-[#86E1FF] shrink-0 mt-1" />
                 <p>
                   La informacion registrada sera utilizada solo para revisar y
                   responder tu reclamo o queja.
@@ -125,7 +125,7 @@ function LibroReclamaciones() {
               </div>
 
               <div className="bg-slate-900 border border-slate-700 rounded-xl p-4">
-                <h2 className="text-[#00ffc3] font-bold mb-2">
+                <h2 className="text-[#86E1FF] font-bold mb-2">
                   Diferencia importante
                 </h2>
                 <p className="text-sm leading-6">
@@ -138,10 +138,10 @@ function LibroReclamaciones() {
 
           <form
             onSubmit={manejarEnvio}
-            className="bg-[#020617] border border-slate-700 rounded-2xl p-6 md:p-8"
+            className="bg-[#020617] border border-[#5C7CFA] rounded-2xl p-6 md:p-8 shadow-[0_0_15px_rgba(134,225,255,0.4),0_0_30px_rgba(134,225,255,0.2)] "
           >
             {enviado && (
-              <div className="mb-6 rounded-xl border border-[#00ffc3] bg-[#00ffc3]/10 px-4 py-3 text-[#00ffc3] font-semibold">
+              <div className="mb-6 rounded-xl border border-[#86E1FF] bg-[#86E1FF]/10 px-4 py-3 text-[#86E1FF] font-semibold">
                 Tu solicitud fue registrada correctamente
                 {registro?.id ? ` con el numero ${registro.id}.` : "."}
               </div>
@@ -201,7 +201,9 @@ function LibroReclamaciones() {
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm text-gray-300">Correo electronico</span>
+                <span className="text-sm text-gray-300">
+                  Correo electronico
+                </span>
                 <input
                   required
                   type="email"
@@ -239,7 +241,9 @@ function LibroReclamaciones() {
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm text-gray-300">Producto o servicio</span>
+                <span className="text-sm text-gray-300">
+                  Producto o servicio
+                </span>
                 <input
                   required
                   name="producto"
@@ -274,7 +278,9 @@ function LibroReclamaciones() {
               </label>
 
               <label className="space-y-2 md:col-span-2">
-                <span className="text-sm text-gray-300">Pedido del consumidor</span>
+                <span className="text-sm text-gray-300">
+                  Pedido del consumidor
+                </span>
                 <textarea
                   required
                   name="solicitud"
@@ -289,7 +295,7 @@ function LibroReclamaciones() {
             <button
               type="submit"
               disabled={enviando}
-              className="mt-6 w-full md:w-auto bg-[#00ffc3] text-black px-6 py-3 rounded-xl font-bold hover:bg-[#00d9a8] disabled:opacity-60 disabled:cursor-not-allowed transition inline-flex items-center justify-center gap-2"
+              className="mt-6 w-full md:w-auto bg-[#86E1FF] text-black px-6 py-3 rounded-xl font-bold hover:bg-[#5C7CFA] hover:text-white disabled:opacity-60 disabled:cursor-not-allowed transition inline-flex items-center justify-center gap-2"
             >
               <Send size={20} />
               {enviando ? "Enviando..." : "Enviar solicitud"}

@@ -7,15 +7,15 @@ const Footer = () => {
       className="
         bg-black
         border-t
-        border-[#00ffc3]
+        border-[#5C7CFA]
         py-10
         px-8
-        mt-10
+        mt-0
       "
     >
       <div
         className="
-          max-w-7xl
+          max-w-full
           mx-auto
           grid
           grid-cols-1
@@ -25,35 +25,23 @@ const Footer = () => {
       >
         {/* Logo */}
         <div>
-          <h3 className="text-[#00ffc3] text-2xl font-bold mb-4">
-            GameHub
-          </h3>
+          <h3 className="text-[#86E1FF] text-2xl font-bold mb-4">GameHub</h3>
 
-          <p className="text-gray-400">
-            Tu universo gamer definitivo.
-          </p>
+          <p className="text-gray-400">Tu universo gamer definitivo.</p>
         </div>
 
         {/* Contacto */}
         <div>
-          <h3 className="text-[#00ffc3] text-xl font-bold mb-4">
-            Contacto
-          </h3>
+          <h3 className="text-[#86E1FF] text-xl font-bold mb-4">Contacto</h3>
 
-          <p className="text-gray-400">
-            soporte@gamehub.com
-          </p>
+          <p className="text-gray-400">soporte@gamehub.com</p>
 
-          <p className="text-gray-400">
-            +51 999 999 999
-          </p>
+          <p className="text-gray-400">+51 999 999 999</p>
         </div>
 
         {/* Nosotros */}
         <div>
-          <h3 className="text-[#00ffc3] text-xl font-bold mb-4">
-            Conócenos
-          </h3>
+          <h3 className="text-[#86E1FF] text-xl font-bold mb-4">Conócenos</h3>
 
           <p className="text-gray-400 mb-4">
             Descubre quiénes somos y la pasión gamer que impulsa GameHub.
@@ -62,13 +50,13 @@ const Footer = () => {
           <Link to="/nosotros">
             <button
               className="
-                bg-[#00ffc3]
+                bg-[#86E1FF]
                 text-black
                 px-6
                 py-3
                 rounded-xl
                 font-bold
-                hover:bg-[#00d9a8]
+                hover:bg-[#5C7CFA] hover:text-white
                 transition
               "
             >
@@ -79,7 +67,7 @@ const Footer = () => {
 
         {/* Libro de Reclamaciones */}
         <div>
-          <h3 className="text-[#00ffc3] text-xl font-bold mb-4">
+          <h3 className="text-[#86E1FF] text-xl font-bold mb-4">
             Atencion al Cliente
           </h3>
 
@@ -95,13 +83,13 @@ const Footer = () => {
               gap-2
               bg-transparent
               border
-              border-[#00ffc3]
-              text-[#00ffc3]
+              border-[#86E1FF]
+              text-[#86E1FF]
               px-5
               py-3
               rounded-xl
               font-bold
-              hover:bg-[#00ffc3]
+              hover:bg-[#5C7CFA] hover:text-white
               hover:text-black
               transition
             "
@@ -112,9 +100,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <p className="text-center text-gray-500 mt-10">
-        © 2026 GameHub
-      </p>
+      <p className="text-center text-gray-500 mt-10">© 2026 GameHub</p>
     </footer>
   );
 };

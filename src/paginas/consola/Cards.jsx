@@ -34,7 +34,7 @@ function Consolas() {
         {/* Estado de carga */}
         {loading && (
           <div className="flex items-center justify-center h-64">
-            <span className="text-[#00ffc3] text-lg animate-pulse">
+            <span className="text-[#86E1FF] text-lg animate-pulse">
               Cargando consolas...
             </span>
           </div>
@@ -73,7 +73,7 @@ function Consolas() {
                     setPaginaActual((prev) => Math.max(prev - 1, 1))
                   }
                   disabled={paginaActual === 1}
-                  className="px-4 py-2 rounded-lg bg-[#1e293b] text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#334155] transition"
+                  className="px-4 py-2 rounded-lg bg-[#1e293b] text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#5C7CFA] transition"
                 >
                   Anterior
                 </button>
@@ -86,8 +86,8 @@ function Consolas() {
                       onClick={() => setPaginaActual(numeroPagina)}
                       className={`w-10 h-10 rounded-lg font-bold transition ${
                         paginaActual === numeroPagina
-                          ? "bg-[#00ffc3] text-black"
-                          : "bg-[#1e293b] text-white hover:bg-[#334155]"
+                          ? "bg-[#86E1FF] text-black"
+                          : "bg-[#1e293b] text-white hover:bg-[#5C7CFA]"
                       }`}
                     >
                       {numeroPagina}
@@ -100,7 +100,7 @@ function Consolas() {
                     setPaginaActual((prev) => Math.min(prev + 1, totalPaginas))
                   }
                   disabled={paginaActual === totalPaginas}
-                  className="px-4 py-2 rounded-lg bg-[#1e293b] text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#334155] transition"
+                  className="px-4 py-2 rounded-lg bg-[#1e293b] text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#5C7CFA] transition"
                 >
                   Siguiente
                 </button>

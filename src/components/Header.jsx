@@ -86,11 +86,11 @@ const Header = () => {
     justify-between
     gap-4
     border-b-2
-    border-[#00ffc3]
+    border-[#5C7CFA]
   "
       >
         {/* LOGO */}
-        <div className="text-[20px] md:text-[24px] text-[#00ffc3] font-bold">
+        <div className="text-[20px] md:text-[24px] text-[#86E1FF] font-bold">
           GameHub
         </div>
 
@@ -120,7 +120,7 @@ const Header = () => {
             after:-bottom-1
             after:h-[2px]
             after:w-0
-            after:bg-[#00ffc3]
+            after:bg-[#86E1FF]
             after:transition-all
             hover:after:w-full
           "
@@ -151,20 +151,23 @@ const Header = () => {
                   text-lg
                   md:text-base
                   font-bold
-                  text-[#00ffc3]
-                  drop-shadow-[0_0_8px_rgba(0,255,195,0.5)]
+                  text-[#86E1FF]
+                  drop-shadow-[0_0_8px_rgba(134,225,255,0.5)]
                 "
               >
                 {usuario.user_metadata?.nombre || "Cliente"}
               </span>
 
-              <button onClick={cerrarSesion} className="btn-primary">
+              <button
+                onClick={cerrarSesion}
+                className="bg-[#86E1FF] text-black px-6 py-3 rounded-xl font-bold hover:bg-[#5C7CFA] hover:text-white transition"
+              >
                 Salir
               </button>
             </div>
           ) : (
             <button
-              className="btn-primary"
+              className="bg-[#86E1FF] text-black px-6 py-3 rounded-xl font-bold hover:bg-[#5C7CFA] hover:text-white transition"
               onClick={() => setMostrarLogin(true)}
             >
               Ingresar
@@ -188,7 +191,7 @@ const Header = () => {
                   absolute
                   -top-2
                   -right-2
-                  bg-[#00ffc3]
+                  bg-[#86E1FF]
                   text-black
                   text-xs
                   font-bold
@@ -210,7 +213,7 @@ const Header = () => {
             onClick={() => setMostrarCarrito(true)}
             className={`
               relative
-              text-white
+              text-[#86E1FF]
               text-2xl 
               md:text-3xl
               cursor-pointer
@@ -227,7 +230,7 @@ const Header = () => {
                   absolute
                   -top-2
                   -right-2
-                  bg-[#00ffc3]
+                  bg-[#86E1FF]
                   text-black
                   text-xs
                   font-bold
@@ -269,7 +272,7 @@ const Header = () => {
       bottom-6
       right-6
       z-[999]
-      bg-[#00ffc3]
+      bg-[#86E1FF]
       text-black
       w-16
       h-16
@@ -277,7 +280,7 @@ const Header = () => {
       flex
       items-center
       justify-center
-      shadow-[0_0_25px_rgba(0,255,195,0.7)]
+      shadow-[0_0_15px_rgba(134,225,255,0.4),0_0_30px_rgba(134,225,255,0.2)]
       hover:scale-110
       transition
       animate-fadeIn

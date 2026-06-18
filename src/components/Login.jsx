@@ -120,15 +120,15 @@ export default function Login({ onClose }) {
           overflow-hidden
           rounded-2xl
           border
-          border-[#00ffc3]/50
+          border-[#86E1FF]/50
           bg-[#0f172a]
-          shadow-[0_0_35px_rgba(0,255,195,0.25)]
+          shadow-[0_0_35px_rgba(134,225,255,0.25)]
         "
       >
         {/* CABECERA */}
         <div className="flex items-start justify-between border-b border-white/10 px-6 py-5">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#00ffc3]/80">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#86E1FF]/80">
               GameHub
             </p>
 
@@ -150,8 +150,8 @@ export default function Login({ onClose }) {
               border-white/10
               text-gray-300
               transition
-              hover:border-[#00ffc3]
-              hover:text-[#00ffc3]
+              hover:border-[#86E1FF]
+              hover:text-[#86E1FF]
             "
           >
             <X size={18} />
@@ -168,7 +168,7 @@ export default function Login({ onClose }) {
               }}
               className={`rounded-lg px-3 py-2 text-sm font-bold transition ${
                 !esRegistro
-                  ? "bg-[#00ffc3] text-black"
+                  ? "bg-[#86E1FF] text-black"
                   : "text-gray-300 hover:text-white"
               }`}
             >
@@ -182,7 +182,7 @@ export default function Login({ onClose }) {
               }}
               className={`rounded-lg px-3 py-2 text-sm font-bold transition ${
                 esRegistro
-                  ? "bg-[#00ffc3] text-black"
+                  ? "bg-[#86E1FF] text-black"
                   : "text-gray-300 hover:text-white"
               }`}
             >
@@ -232,7 +232,7 @@ export default function Login({ onClose }) {
                     pr-3
                     text-white
                     outline-none
-                    focus:border-[#00ffc3]
+                    focus:border-[#86E1FF]
                   "
                 />
               </div>
@@ -270,7 +270,7 @@ export default function Login({ onClose }) {
                   pr-3
                   text-white
                   outline-none
-                  focus:border-[#00ffc3]
+                  focus:border-[#86E1FF]
                 "
               />
             </div>
@@ -307,7 +307,7 @@ export default function Login({ onClose }) {
                   pr-11
                   text-white
                   outline-none
-                  focus:border-[#00ffc3]
+                  focus:border-[#86E1FF]
                 "
               />
 
@@ -320,7 +320,7 @@ export default function Login({ onClose }) {
                   top-1/2
                   -translate-y-1/2
                   text-gray-400
-                  hover:text-[#00ffc3]
+                  hover:text-[#86E1FF]
                 "
               >
                 {mostrarPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -336,12 +336,12 @@ export default function Login({ onClose }) {
               mt-5
               w-full
               rounded-xl
-              bg-[#00ffc3]
+              bg-[#86E1FF]
               py-3
               font-bold
               text-black
               transition
-              hover:bg-[#00d9a8]
+              hover:bg-[#5C7CFA] hover:text-white
               disabled:opacity-60
             "
           >

@@ -35,7 +35,7 @@ function Favoritos() {
           gap-2
           text-2xl
           font-bold
-          text-[#00ffc3]
+          text-[#86E1FF]
         "
       >
         <Heart size={30} className="text-red-500 fill-red-500 animate-pulse" />
@@ -59,7 +59,9 @@ function Favoritos() {
 
           <h2 className="text-3xl text-white font-bold">No tienes favoritos</h2>
 
-          <p className="text-gray-400 mt-3">Agrega juegos o consolas para verlos aquí</p>
+          <p className="text-gray-400 mt-3">
+            Agrega juegos o consolas para verlos aquí
+          </p>
         </div>
       ) : (
         <div
@@ -75,7 +77,13 @@ function Favoritos() {
           {favoritos.map((item) => {
             // Determinar si el favorito es una consola (usa la propiedad `titulo`) o un juego
             if (item && (item.titulo || item.consola) && !item.nombre) {
-              return <CardConsola key={item.id} producto={item} addToast={addToast} />;
+              return (
+                <CardConsola
+                  key={item.id}
+                  producto={item}
+                  addToast={addToast}
+                />
+              );
             }
 
             return <CardJuego key={item.id} juego={item} addToast={addToast} />;

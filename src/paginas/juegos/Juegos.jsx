@@ -100,7 +100,7 @@ function Juegos() {
           className="
             text-center
             text-4xl
-            text-[#00ffc3]
+            text-[#86E1FF]
             font-bold
             mb-10
           "
@@ -264,10 +264,10 @@ function Juegos() {
                 py-2
                 rounded-lg
                 bg-[#1e293b]
-                text-white
+                text-white 
                 disabled:opacity-40
                 disabled:cursor-not-allowed
-                hover:bg-[#334155]
+                hover:bg-[#5C7CFA] hover:text-white
                 transition
               "
             >
@@ -289,8 +289,8 @@ function Juegos() {
                     transition
                     ${
                       paginaActual === numeroPagina
-                        ? "bg-[#00ffc3] text-black"
-                        : "bg-[#1e293b] text-white hover:bg-[#334155]"
+                        ? "bg-[#86E1FF] text-black"
+                        : "bg-[#1e293b] text-white hover:bg-[#5C7CFA]"
                     }
                   `}
                 >
@@ -312,7 +312,7 @@ function Juegos() {
                 text-white
                 disabled:opacity-40
                 disabled:cursor-not-allowed
-                hover:bg-[#334155]
+                hover:bg-[#5C7CFA] hover:text-white
                 transition
               "
             >

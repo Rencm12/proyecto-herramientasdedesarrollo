@@ -15,7 +15,6 @@ import Footer from "../../components/Footer";
 import Toast from "../../components/Toast";
 
 function Home() {
-
   const [toasts, setToasts] = useState([]);
 
   const juegosDestacados = juegosHome.slice(0, 3);
@@ -43,19 +42,17 @@ function Home() {
 
   return (
     <div className="bg-[#0f172a] min-h-screen text-white">
-
       {/* HERO / BANNER */}
       <CarruselHome />
 
       {/* BIENVENIDA */}
       <section className="text-center py-16 px-5">
-
         <h1
           className="
             text-5xl
             md:text-6xl
             font-bold
-            text-[#00ffc3]
+            text-[#86E1FF]
             mb-6
           "
         >
@@ -71,22 +68,27 @@ function Home() {
             leading-8
           "
         >
-          "Bienvenidos a GameHub, el punto de encuentro creado por y para gamers. No solo vendemos consolas, videojuegos y accesorios; alimentamos tu lado geek con el mejor coleccionismo. Sube de nivel tu experiencia y sumérgete en tu próxima gran aventura."
+          "Bienvenidos a GameHub, el punto de encuentro creado por y para
+          gamers. No solo vendemos consolas, videojuegos y accesorios;
+          alimentamos tu lado geek con el mejor coleccionismo. Sube de nivel tu
+          experiencia y sumérgete en tu próxima gran aventura."
           <br />
           <br />
-          "La pasión por los videojuegos es el motor que impulsa GameHub. Aquí encontrarás no solo los últimos lanzamientos, sino también joyas clásicas y accesorios imprescindibles para cada jugador. Únete a nuestra comunidad de gamers y lleva tu experiencia al siguiente nivel con GameHub."
+          "La pasión por los videojuegos es el motor que impulsa GameHub. Aquí
+          encontrarás no solo los últimos lanzamientos, sino también joyas
+          clásicas y accesorios imprescindibles para cada jugador. Únete a
+          nuestra comunidad de gamers y lleva tu experiencia al siguiente nivel
+          con GameHub."
         </p>
-
       </section>
 
       {/* JUEGOS DESTACADOS */}
       <section className="px-8 py-10">
-
         <h2
           className="
             text-4xl
             font-bold
-            text-[#00ffc3]
+            text-[#86E1FF]
             mb-10
             text-center
           "
@@ -104,24 +106,18 @@ function Home() {
           "
         >
           {juegosDestacados.map((juego) => (
-            <CardJuegoHome
-              key={juego.id}
-              juego={juego}
-              addToast={addToast}
-            />
+            <CardJuegoHome key={juego.id} juego={juego} addToast={addToast} />
           ))}
         </div>
-
       </section>
 
       {/* CONSOLAS */}
       <section className="px-8 py-10">
-
         <h2
           className="
             text-4xl
             font-bold
-            text-[#00ffc3]
+            text-[#86E1FF]
             mb-10
             text-center
           "
@@ -146,16 +142,14 @@ function Home() {
             />
           ))}
         </div>
-
       </section>
 
       <section className="px-8 py-10">
-
         <h2
           className="
       text-4xl
       font-bold
-      text-[#00ffc3]
+      text-[#86E1FF]
       mb-10
       text-center
     "
@@ -173,23 +167,16 @@ function Home() {
     "
         >
           {accesoriosDestacados.map((producto) => (
-            <CardAccesorio
-              key={producto.id}
-              producto={producto}
-            />
+            <CardAccesorio key={producto.id} producto={producto} />
           ))}
         </div>
-
       </section>
 
       <Footer />
 
       <Toast toasts={toasts} />
-
     </div>
-    
   );
-
 }
 
 export default Home;

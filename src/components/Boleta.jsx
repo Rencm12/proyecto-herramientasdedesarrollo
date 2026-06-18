@@ -21,7 +21,7 @@ export const generarBoleta = (
   doc.rect(0, 0, pageWidth, pageHeight, "F");
 
   // Encabezado decorativo
-  doc.setFillColor(0, 255, 195);
+  doc.setFillColor(134, 225, 255);
   doc.rect(0, 0, pageWidth, 40, "F");
 
   // Logo/Nombre
@@ -36,7 +36,7 @@ export const generarBoleta = (
   doc.line(margen, 42, pageWidth - margen, 42);
 
   // Título boleta
-  doc.setTextColor(0, 255, 195);
+  doc.setTextColor(134, 225, 255);
   doc.setFontSize(16);
   doc.setFont(undefined, "bold");
   doc.text("BOLETA DE VENTA ELECTRÓNICA", margen, 55);
@@ -59,7 +59,7 @@ export const generarBoleta = (
   doc.setDrawColor(50, 50, 80);
   doc.rect(margen, 72, pageWidth - 2 * margen, 45);
 
-  doc.setTextColor(0, 255, 195);
+  doc.setTextColor(134, 225, 255);
   doc.setFontSize(11);
   doc.setFont(undefined, "bold");
   doc.text("DATOS DEL CLIENTE", margen + 5, 80);
@@ -82,7 +82,7 @@ export const generarBoleta = (
   doc.setDrawColor(50, 50, 80);
   doc.rect(margen, yPos - 5, pageWidth - 2 * margen, 8);
 
-  doc.setTextColor(0, 255, 195);
+  doc.setTextColor(134, 225, 255);
   doc.setFontSize(10);
   doc.setFont(undefined, "bold");
   doc.text("DESCRIPCIÓN", margen + 5, yPos);
@@ -135,7 +135,7 @@ export const generarBoleta = (
 
   // Resumen de pago
   yPos += 8;
-  doc.setTextColor(200, 200, 200);
+  doc.setTextColor(134, 225, 255);
   doc.setFontSize(10);
 
   doc.setDrawColor(50, 50, 80);
@@ -149,7 +149,7 @@ export const generarBoleta = (
   const xLabel = pageWidth - 90;
   const xMonto = pageWidth - margen - 5;
 
-  doc.setTextColor(200, 200, 200);
+  doc.setTextColor(134, 225, 255);
   doc.setFontSize(10);
 
   // Subtotal
@@ -181,7 +181,7 @@ export const generarBoleta = (
   // Total
   yPos += 8;
 
-  doc.setTextColor(0, 255, 195);
+  doc.setTextColor(134, 225, 255);
   doc.setFontSize(14);
   doc.setFont(undefined, "bold");
 
@@ -203,13 +203,13 @@ export const generarBoleta = (
 
   // Método de pago
   yPos += 8;
-  doc.setTextColor(200, 200, 200);
+  doc.setTextColor(134, 225, 255);
   doc.setFontSize(9);
   doc.setFont(undefined, "normal");
   doc.text(`Método de Pago: ${metodoPago}`, margen, yPos);
   yPos += 6;
 
-  doc.setTextColor(0, 255, 195);
+  doc.setTextColor(134, 225, 255);
   doc.setFont(undefined, "bold");
 
   doc.text("Estado: PAGADO", margen, yPos);
