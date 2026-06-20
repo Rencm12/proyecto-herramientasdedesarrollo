@@ -325,6 +325,22 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
       return;
     }
 
+    // Obtener ubicación del usuario
+    let latitudEntrega = null;
+    let longitudEntrega = null;
+
+    if (navigator.geolocation) {
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+        latitudEntrega = position.coords.latitude;
+        longitudEntrega = position.coords.longitude;
+      } catch (error) {
+        console.log("No se pudo obtener ubicación");
+      }
+    }
+
     setCargando(true);
     setMensaje("");
 
@@ -343,6 +359,8 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
           telefono: telefono,
           direccion: direccion,
           correo: correo,
+          latitud_entrega: latitudEntrega,
+          longitud_entrega: longitudEntrega,
         })
         .select()
         .single();
@@ -351,6 +369,29 @@ function CheckoutModal({ abierto, cerrar, setMostrarLogin }) {
         setMensaje("Error al registrar la orden");
         setCargando(false);
         return;
+      }
+
+      // Crear registro de seguimiento inicial CON UBICACIÓN DE LA EMPRESA
+      if (orden) {
+        // Obtener ubicación de la empresa
+        const { data: empresa } = await supabase
+          .from("configuracion_empresa")
+          .select("latitud, longitud")
+          .limit(1)
+          .single();
+
+        const { error: errorSeguimiento } = await supabase
+          .from("seguimiento_ubicaciones")
+          .insert({
+            orden_id: orden.id,
+            estado: estado,
+            latitud: empresa?.latitud || -12.0462,
+            longitud: empresa?.longitud || -77.0428,
+            descripcion:
+              estado === "pagado"
+                ? "Pagado - Preparando envío desde GameHub"
+                : "Pendiente de pago - En almacén",
+          });
       }
 
       const items = carrito.map((item) => ({

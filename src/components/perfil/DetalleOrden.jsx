@@ -10,6 +10,7 @@ import {
   User,
 } from "lucide-react";
 import { generarBoleta } from "../Boleta";
+import SeguimientoPedidoAvanzado from "../SeguimientoPedidoAvanzado";
 
 function DetalleOrden({ orden, onVolver }) {
   const [items, setItems] = useState([]);
@@ -50,7 +51,7 @@ function DetalleOrden({ orden, onVolver }) {
     const itemsFormateados = items.map((item) => ({
       nombre: item.nombre,
       cantidad: item.cantidad,
-      precio: item.precio_unitario, // ← Cambiar a precio_unitario
+      precio: item.precio_unitario,
     }));
 
     generarBoleta(
@@ -163,6 +164,14 @@ function DetalleOrden({ orden, onVolver }) {
           </div>
         </div>
       </div>
+
+      {/* SEGUIMIENTO AVANZADO */}
+      <SeguimientoPedidoAvanzado
+        ordenId={orden.id}
+        estado={orden.estado}
+        latitudEntrega={orden.latitud_entrega}
+        longitudEntrega={orden.longitud_entrega}
+      />
 
       {/* DATOS DEL CLIENTE */}
       <div className="bg-[#1e293b] p-6 rounded-xl border border-[#5C7CFA]">
