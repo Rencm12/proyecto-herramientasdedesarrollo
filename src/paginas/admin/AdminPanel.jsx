@@ -7,8 +7,10 @@ import {
   Download,
   Gamepad2,
   PackagePlus,
+  Pencil,
   RefreshCw,
   Search,
+  Trash2,
   Truck,
   Users,
 } from "lucide-react";
@@ -20,6 +22,7 @@ import {
 } from "../../utils/trackingSimulation";
 
 const ESTADOS = ["pendiente", "pagado", "enviado", "entregado"];
+const ROLES_USUARIO = ["usuario", "administrador"];
 
 const PRODUCTOS = {
   juegos: {
@@ -98,28 +101,51 @@ function normalizarProducto(formulario) {
   );
 }
 
+function leerBorrador(clave, valorInicial) {
+  try {
+    const guardado = sessionStorage.getItem(clave);
+    return guardado ? JSON.parse(guardado) : valorInicial;
+  } catch {
+    return valorInicial;
+  }
+}
+
+function guardarBorrador(clave, valor) {
+  sessionStorage.setItem(clave, JSON.stringify(valor));
+}
+
 function AdminPanel() {
-  const [tab, setTab] = useState("pedidos");
+  const [tab, setTab] = useState(() =>
+    leerBorrador("gamehub-admin-tab", "pedidos"),
+  );
   const [ordenes, setOrdenes] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [repartidores, setRepartidores] = useState([]);
   const [comprobantes, setComprobantes] = useState([]);
   const [itemsOrden, setItemsOrden] = useState({});
-  const [productoTipo, setProductoTipo] = useState("juegos");
+  const [productoTipo, setProductoTipo] = useState(() =>
+    leerBorrador("gamehub-admin-producto-tipo", "juegos"),
+  );
   const [productos, setProductos] = useState([]);
   const [busqueda, setBusqueda] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
-  const [formulario, setFormulario] = useState(
-    crearFormularioInicial("juegos"),
+  const [productoEditando, setProductoEditando] = useState(null);
+  const [formulario, setFormulario] = useState(() =>
+    leerBorrador(
+      "gamehub-admin-formulario-producto",
+      crearFormularioInicial(productoTipo),
+    ),
   );
-  const [formRepartidor, setFormRepartidor] = useState({
-    nombre: "",
-    telefono: "",
-    foto_url: "",
-    rating: 5,
-  });
+  const [formRepartidor, setFormRepartidor] = useState(() =>
+    leerBorrador("gamehub-admin-formulario-repartidor", {
+      nombre: "",
+      telefono: "",
+      foto_url: "",
+      rating: 5,
+    }),
+  );
 
   const cargarPanel = async () => {
     setCargando(true);
@@ -183,8 +209,23 @@ function AdminPanel() {
 
   useEffect(() => {
     cargarProductos(productoTipo);
-    setFormulario(crearFormularioInicial(productoTipo));
   }, [productoTipo]);
+
+  useEffect(() => {
+    guardarBorrador("gamehub-admin-tab", tab);
+  }, [tab]);
+
+  useEffect(() => {
+    guardarBorrador("gamehub-admin-producto-tipo", productoTipo);
+  }, [productoTipo]);
+
+  useEffect(() => {
+    guardarBorrador("gamehub-admin-formulario-producto", formulario);
+  }, [formulario]);
+
+  useEffect(() => {
+    guardarBorrador("gamehub-admin-formulario-repartidor", formRepartidor);
+  }, [formRepartidor]);
 
   const resumen = useMemo(
     () => ({
@@ -207,6 +248,12 @@ function AdminPanel() {
   const obtenerComprobante = (ordenId) =>
     comprobantes.find((comprobante) => comprobante.orden_id === ordenId);
 
+  const cambiarProductoTipo = (tipo) => {
+    setProductoTipo(tipo);
+    setFormulario(crearFormularioInicial(tipo));
+    setProductoEditando(null);
+  };
+
   const descargarComprobante = (comprobante) => {
     if (!comprobante?.archivo_url) return;
     const { data } = supabase.storage
@@ -227,6 +274,41 @@ function AdminPanel() {
         item.id === ordenId ? { ...item, repartidor_id: repartidorId } : item,
       ),
     );
+  };
+
+  const actualizarRolUsuario = async (usuarioId, nuevoRol) => {
+    setGuardando(true);
+    setMensaje("");
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .update({ Roles: nuevoRol })
+      .eq("id", usuarioId)
+      .select("*")
+      .maybeSingle();
+
+    if (error) {
+      setMensaje(`No se pudo actualizar el rol: ${error.message}`);
+      setGuardando(false);
+      return;
+    }
+
+    if (!data) {
+      setMensaje(
+        "No se pudo actualizar el rol. Revisa los permisos de Supabase para la tabla profiles.",
+      );
+      setGuardando(false);
+      return;
+    }
+
+    setUsuarios((actuales) =>
+      actuales.map((usuario) =>
+        usuario.id === usuarioId ? { ...usuario, ...data } : usuario,
+      ),
+    );
+    window.dispatchEvent(new Event("gamehub-profile-updated"));
+    setMensaje("Rol de usuario actualizado");
+    setGuardando(false);
   };
 
   const actualizarEstadoOrden = async (orden, nuevoEstado) => {
@@ -310,16 +392,25 @@ function AdminPanel() {
     const config = PRODUCTOS[productoTipo];
     const payload = normalizarProducto(formulario);
 
-    const { error } = await supabase.from(config.tabla).insert(payload);
+    const consulta = productoEditando
+      ? supabase.from(config.tabla).update(payload).eq("id", productoEditando.id)
+      : supabase.from(config.tabla).insert(payload);
+
+    const { error } = await consulta;
 
     if (error) {
-      setMensaje("No se pudo insertar el producto. Revisa los campos.");
+      setMensaje(`No se pudo guardar el producto: ${error.message}`);
       setGuardando(false);
       return;
     }
 
-    setMensaje(`${config.label.slice(0, -1)} insertado correctamente`);
+    setMensaje(
+      productoEditando
+        ? `${config.label.slice(0, -1)} actualizado correctamente`
+        : `${config.label.slice(0, -1)} insertado correctamente`,
+    );
     setFormulario(crearFormularioInicial(productoTipo));
+    setProductoEditando(null);
     await cargarProductos(productoTipo);
     window.dispatchEvent(new Event("stockActualizado"));
     setGuardando(false);
@@ -347,6 +438,49 @@ function AdminPanel() {
     window.dispatchEvent(new Event("stockActualizado"));
   };
 
+  const editarProducto = (producto) => {
+    const config = PRODUCTOS[productoTipo];
+    const formularioInicial = crearFormularioInicial(productoTipo);
+    const formularioEditado = config.campos.reduce((acc, campo) => {
+      acc[campo] = producto[campo] ?? formularioInicial[campo];
+      return acc;
+    }, {});
+
+    setProductoEditando(producto);
+    setFormulario(formularioEditado);
+    setMensaje(`${config.label.slice(0, -1)} cargado para editar`);
+  };
+
+  const eliminarProducto = async (producto) => {
+    const config = PRODUCTOS[productoTipo];
+    setGuardando(true);
+    setMensaje("");
+
+    const { error } = await supabase
+      .from(config.tabla)
+      .delete()
+      .eq("id", producto.id);
+
+    if (error) {
+      setMensaje(`No se pudo eliminar el producto: ${error.message}`);
+      setGuardando(false);
+      return;
+    }
+
+    setProductos((actuales) =>
+      actuales.filter((item) => item.id !== producto.id),
+    );
+
+    if (productoEditando?.id === producto.id) {
+      setProductoEditando(null);
+      setFormulario(crearFormularioInicial(productoTipo));
+    }
+
+    setMensaje(`${config.label.slice(0, -1)} eliminado correctamente`);
+    window.dispatchEvent(new Event("stockActualizado"));
+    setGuardando(false);
+  };
+
   const guardarRepartidor = async (event) => {
     event.preventDefault();
     setGuardando(true);
@@ -354,6 +488,14 @@ function AdminPanel() {
 
     if (!formRepartidor.nombre || !formRepartidor.telefono) {
       setMensaje("Nombre y teléfono son obligatorios");
+      setGuardando(false);
+      return;
+    }
+
+    if (!/^9\d{8}$/.test(formRepartidor.telefono)) {
+      setMensaje(
+        "El teléfono del repartidor debe tener 9 dígitos y empezar con 9",
+      );
       setGuardando(false);
       return;
     }
@@ -464,7 +606,13 @@ function AdminPanel() {
               />
             )}
 
-            {tab === "usuarios" && <UsuariosTab usuarios={usuarios} />}
+            {tab === "usuarios" && (
+              <UsuariosTab
+                usuarios={usuarios}
+                actualizarRolUsuario={actualizarRolUsuario}
+                guardando={guardando}
+              />
+            )}
             {tab === "repartidores" && (
               <RepartidoresTab
                 repartidores={repartidores}
@@ -478,14 +626,17 @@ function AdminPanel() {
             {tab === "catalogo" && (
               <CatalogoTab
                 productoTipo={productoTipo}
-                setProductoTipo={setProductoTipo}
+                setProductoTipo={cambiarProductoTipo}
                 busqueda={busqueda}
                 setBusqueda={setBusqueda}
                 formulario={formulario}
                 setFormulario={setFormulario}
                 guardarProducto={guardarProducto}
+                productoEditando={productoEditando}
                 productosFiltrados={productosFiltrados}
                 actualizarStock={actualizarStock}
+                editarProducto={editarProducto}
+                eliminarProducto={eliminarProducto}
                 guardando={guardando}
               />
             )}
@@ -647,7 +798,7 @@ function PedidosTab({
   );
 }
 
-function UsuariosTab({ usuarios }) {
+function UsuariosTab({ usuarios, actualizarRolUsuario, guardando }) {
   return (
     <section className="bg-[#1e293b] border border-white/10 rounded-lg overflow-hidden">
       <div className="grid grid-cols-1 md:grid-cols-5 gap-3 border-b border-white/10 p-4 text-sm font-bold text-[#86E1FF]">
@@ -665,7 +816,20 @@ function UsuariosTab({ usuarios }) {
           <span>{usuario.nombre || usuario.email || "Sin nombre"}</span>
           <span>{usuario.telefono || "N/A"}</span>
           <span>{usuario.direccion || "N/A"}</span>
-          <span>{usuario.Roles || "usuario"}</span>
+          <select
+            value={usuario.Roles || "usuario"}
+            disabled={guardando}
+            onChange={(event) =>
+              actualizarRolUsuario(usuario.id, event.target.value)
+            }
+            className="bg-[#0f172a] border border-white/10 rounded-lg px-3 py-2 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {ROLES_USUARIO.map((rol) => (
+              <option key={rol} value={rol}>
+                {rol}
+              </option>
+            ))}
+          </select>
           <span className="truncate">{usuario.id}</span>
         </div>
       ))}
@@ -681,8 +845,11 @@ function CatalogoTab({
   formulario,
   setFormulario,
   guardarProducto,
+  productoEditando,
   productosFiltrados,
   actualizarStock,
+  editarProducto,
+  eliminarProducto,
   guardando,
 }) {
   const PRODUCTOS = {
@@ -745,7 +912,7 @@ function CatalogoTab({
       >
         <div className="flex items-center gap-2 text-[#86E1FF] font-bold">
           <PackagePlus size={20} />
-          Insertar producto
+          {productoEditando ? "Editar producto" : "Insertar producto"}
         </div>
 
         <select
@@ -809,7 +976,7 @@ function CatalogoTab({
           disabled={guardando}
           className="w-full bg-[#86E1FF] text-black px-4 py-3 rounded-lg font-bold hover:bg-[#5C7CFA] hover:text-white transition disabled:opacity-50"
         >
-          Guardar en {config.label}
+          {productoEditando ? "Actualizar" : "Guardar"} en {config.label}
         </button>
       </form>
 
@@ -834,7 +1001,7 @@ function CatalogoTab({
           {productosFiltrados.map((producto) => (
             <div
               key={producto.id}
-              className="grid grid-cols-1 md:grid-cols-[1fr_120px_160px] gap-3 rounded-lg bg-[#0f172a] p-4"
+              className="grid grid-cols-1 md:grid-cols-[1fr_190px_160px] gap-3 rounded-lg bg-[#0f172a] p-4"
             >
               <div>
                 <p className="font-bold">
@@ -844,15 +1011,35 @@ function CatalogoTab({
                   S/ {Number(producto.precio || 0).toFixed(2)}
                 </p>
               </div>
-              <span
-                className={`inline-flex items-center justify-center rounded-lg border px-3 py-2 text-sm font-bold ${
-                  Number(producto.stock) <= 5
-                    ? "border-yellow-500/40 text-yellow-300"
-                    : "border-green-500/40 text-green-300"
-                }`}
-              >
-                Stock {producto.stock ?? 0}
-              </span>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`inline-flex flex-1 items-center justify-center rounded-lg border px-3 py-2 text-sm font-bold ${
+                    Number(producto.stock) <= 5
+                      ? "border-yellow-500/40 text-yellow-300"
+                      : "border-green-500/40 text-green-300"
+                  }`}
+                >
+                  Stock {producto.stock ?? 0}
+                </span>
+                <button
+                  type="button"
+                  disabled={guardando}
+                  onClick={() => editarProducto(producto)}
+                  title="Editar producto"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#86E1FF]/50 text-[#86E1FF] transition hover:bg-[#86E1FF] hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Pencil size={18} />
+                </button>
+                <button
+                  type="button"
+                  disabled={guardando}
+                  onClick={() => eliminarProducto(producto)}
+                  title="Eliminar producto"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-red-400/50 text-red-300 transition hover:bg-red-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
               <input
                 type="number"
                 min="0"
@@ -913,8 +1100,14 @@ function RepartidoresTab({
           placeholder="Teléfono"
           value={formRepartidor.telefono}
           onChange={(e) =>
-            setFormRepartidor({ ...formRepartidor, telefono: e.target.value })
+            setFormRepartidor({
+              ...formRepartidor,
+              telefono: e.target.value.replace(/\D/g, "").slice(0, 9),
+            })
           }
+          inputMode="numeric"
+          pattern="9[0-9]{8}"
+          maxLength={9}
           className="w-full bg-[#0f172a] border border-white/10 rounded-lg px-3 py-3 text-white placeholder:text-gray-500"
         />
 
