@@ -1,12 +1,23 @@
-name: GameHub CI
+name: CI
 
 on:
   push:
+    branches:
+      - main
+      - CalebAlv
   pull_request:
+    branches:
+      - main
+      - CalebAlv
 
 jobs:
   validate:
+    name: Lint, Build and Tests
     runs-on: ubuntu-latest
+
+    env:
+      VITE_SUPABASE_URL: https://example.supabase.co
+      VITE_SUPABASE_ANON_KEY: ci-placeholder-anon-key
 
     steps:
       - name: Checkout repository
@@ -16,12 +27,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run ESLint
+      - name: Check code
         run: npm run lint
 
       - name: Build project
         run: npm run build
+
+      - name: Run tests if configured
+        shell: bash
+        run: |
+          if node -e "process.exit(require('./package.json').scripts?.test ? 0 : 1)"; then
+            npm test -- --watch=false
+          else
+            echo "No test script configured yet. Skipping tests."
+          fi
