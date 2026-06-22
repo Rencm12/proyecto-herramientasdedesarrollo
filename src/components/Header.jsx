@@ -22,6 +22,7 @@ const Header = () => {
   const { t } = useTranslation();
   const [usuario, setUsuario] = useState(null);
   const [esAdministrador, setEsAdministrador] = useState(false);
+  const [rolUsuario, setRolUsuario] = useState(null);
   const navItems = t("header.nav", { returnObjects: true });
 
   const { carrito } = useContext(CarritoContext);
@@ -39,6 +40,7 @@ const Header = () => {
   const verificarAdministrador = async (userId) => {
     if (!userId) {
       setEsAdministrador(false);
+      setRolUsuario(null);
       return;
     }
 
@@ -48,7 +50,18 @@ const Header = () => {
       .eq("id", userId)
       .maybeSingle();
 
-    setEsAdministrador(!error && data?.Roles === "administrador");
+    if (error) {
+      console.log("ERROR OBTENIENDO ROL:", error);
+      setEsAdministrador(false);
+      setRolUsuario(null);
+      return;
+    }
+
+    const rol = data?.Roles;
+
+    setRolUsuario(rol);
+
+    setEsAdministrador(rol === "administrador");
   };
 
   useEffect(() => {
@@ -207,6 +220,7 @@ const Header = () => {
           {usuario ? (
             <PerfilDropdown
               usuario={usuario}
+              rol={rolUsuario}
               onAbrirPerfil={() => {
                 setSeccionPerfil("datos");
                 setMostrarPerfil(true);

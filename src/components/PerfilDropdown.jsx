@@ -3,12 +3,15 @@ import { User, LogOut, History } from "lucide-react";
 
 function PerfilDropdown({
   usuario,
+  rol,
   onAbrirPerfil,
   onAbrirOrdenes,
   onCerrarSesion,
 }) {
   const [abierto, setAbierto] = useState(false);
   const menuRef = useRef(null);
+
+  const esAdmin = rol === "administrador";
 
   const cerrarMenu = () => setAbierto(false);
 
@@ -35,7 +38,10 @@ function PerfilDropdown({
     };
 
     document.addEventListener("mousedown", handleClickAfuera);
-    return () => document.removeEventListener("mousedown", handleClickAfuera);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickAfuera);
+    };
   }, []);
 
   return (
@@ -50,22 +56,28 @@ function PerfilDropdown({
 
       {abierto && (
         <div className="absolute right-0 mt-2 w-48 bg-black border-2 border-[#5C7CFA] rounded-xl shadow-lg z-[9998] overflow-hidden">
-          <button
-            onClick={handleVerPerfil}
-            className="w-full flex items-center gap-2 px-4 py-3 text-[#86E1FF] hover:bg-[#5C7CFA] hover:text-white transition text-left border-b border-[#5C7CFA]"
-          >
-            <User size={18} />
-            Mi Perfil
-          </button>
+          {/* SOLO USUARIO */}
+          {!esAdmin && (
+            <>
+              <button
+                onClick={handleVerPerfil}
+                className="w-full flex items-center gap-2 px-4 py-3 text-[#86E1FF] hover:bg-[#5C7CFA] hover:text-white transition text-left border-b border-[#5C7CFA]"
+              >
+                <User size={18} />
+                Mi Perfil
+              </button>
 
-          <button
-            onClick={handleVerOrdenes}
-            className="w-full flex items-center gap-2 px-4 py-3 text-[#86E1FF] hover:bg-[#5C7CFA] hover:text-white transition text-left border-b border-[#5C7CFA]"
-          >
-            <History size={18} />
-            Mis Ordenes
-          </button>
+              <button
+                onClick={handleVerOrdenes}
+                className="w-full flex items-center gap-2 px-4 py-3 text-[#86E1FF] hover:bg-[#5C7CFA] hover:text-white transition text-left border-b border-[#5C7CFA]"
+              >
+                <History size={18} />
+                Mis Ordenes
+              </button>
+            </>
+          )}
 
+          {/* TODOS */}
           <button
             onClick={handleCerrarSesion}
             className="w-full flex items-center gap-2 px-4 py-3 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition text-left"

@@ -90,7 +90,6 @@ function SeguimientoPedidoAvanzado({
           filter: `orden_id=eq.${ordenId}`,
         },
         (payload) => {
-          console.log("Posición actualizada:", payload.new);
           if (payload.new) {
             setPosicionActual(payload.new);
             // Actualizar progreso
