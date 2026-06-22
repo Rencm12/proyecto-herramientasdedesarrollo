@@ -456,13 +456,23 @@ function AdminPanel() {
     setGuardando(true);
     setMensaje("");
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from(config.tabla)
       .delete()
-      .eq("id", producto.id);
+      .eq("id", producto.id)
+      .select("id")
+      .maybeSingle();
 
     if (error) {
       setMensaje(`No se pudo eliminar el producto: ${error.message}`);
+      setGuardando(false);
+      return;
+    }
+
+    if (!data) {
+      setMensaje(
+        `No se pudo eliminar el producto. Revisa los permisos de Supabase para la tabla ${config.tabla}.`,
+      );
       setGuardando(false);
       return;
     }
