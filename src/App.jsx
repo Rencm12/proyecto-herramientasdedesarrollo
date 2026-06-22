@@ -11,6 +11,9 @@ import "./App.css";
 import Consolaspag from "./paginas/consola/consolas";
 import Accesorios from "./paginas/accesorios/Accesorios";
 import LibroReclamaciones from "./paginas/libro-reclamaciones/LibroReclamaciones";
+
+import ChatBot from "./components/ChatBot";
+
 import AdminPanel from "./paginas/admin/AdminPanel";
 import AdminRoute from "./components/AdminRoute";
 
@@ -37,6 +40,8 @@ function App() {
           }
         />
       </Routes>
+
+      <ChatBot />
     </BrowserRouter>
   );
 }
