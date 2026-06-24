@@ -104,7 +104,7 @@ function LibroReclamaciones() {
           <div className="bg-[#020617] border border-[#5C7CFA] rounded-2xl p-6 md:p-8 shadow-[0_0_15px_rgba(134,225,255,0.4),0_0_30px_rgba(134,225,255,0.2)]">
             <div className="flex items-center gap-3 text-[#86E1FF] mb-5">
               <BookOpenCheck size={36} />
-              <h1 className="text-4xl md:text-5xl font-bold">
+              <h1 className="text-4xl md:text-5xl font-bold text-[#86E1FF]">
                 {t("claims.title")}
               </h1>
             </div>
