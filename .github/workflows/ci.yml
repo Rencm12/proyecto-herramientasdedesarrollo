@@ -4,10 +4,26 @@ on:
     branches:
       - main
       - CalebAlv
+      - consola
+      - Carlos
+      - panel-admin
+      - Accesibilidad
+      - Karol/juegos
+      - login
+      - Prueba
+      - Hilmer
   pull_request:
     branches:
       - main
       - CalebAlv
+      - consola
+      - Carlos
+      - panel-admin
+      - Accesibilidad
+      - Karol/juegos
+      - login
+      - Prueba
+      - Hilmer
 jobs:
   validate:
     name: Lint, Build and Tests
